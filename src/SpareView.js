@@ -26,7 +26,7 @@ function SpareView() {
     const [loading, setLoading] = useState(true)
 
     function DownloadExcel() {
-        console.log(spareData)
+        
 
         // const fields={
         //     "code" : "Code",
@@ -82,7 +82,7 @@ function SpareView() {
 
         onValue(spareRef, (snapshot) => {
             const data = snapshot.val();
-            console.log("data : ",data);
+            ;
 
             var spareArray=[];
             for(var key in data)
@@ -90,7 +90,7 @@ function SpareView() {
                 spareArray.push(data[key])
             }
 
-            console.log("sparearray : ",spareArray);
+            ;
 
             setSpareData(spareArray);
             setLoading(false);
@@ -262,19 +262,19 @@ function SpareView() {
         {
             const keys=["code","partName", "machine", "partNumber", "nickName", "spec", "origin"]
             var items=spareData.filter((item,index)=>{
-                // console.log(item,"keys : ", keys)
+                // 
                 var found=0;
                 keys.forEach(key=>{
                     if(item[key].includes(search))
                     {
-                        console.log("item[key] : ",item[key], item[key].includes(search))
+                        
                         found=1;
                     }
                 })
                 return found===1
             })
 
-            console.log(items)
+            
             if(items.length>0)
                 setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
             else
@@ -287,7 +287,7 @@ function SpareView() {
     }, [search, spareData])
 
     const RenderItem=({item, index})=>{
-        console.log("iten : ",item)
+        
         return (
             <div key={index} className="w-10/12 p-2 grid grid-cols-8">
                 <div className="flex items-center justify-center">
@@ -351,7 +351,7 @@ function SpareView() {
                         placeholder="Search by keyword"
                     />
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
 

@@ -266,7 +266,7 @@ function SpareHistory() {
                             <span>{item.added}</span>
      
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 font-bold text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5-5m0 0l5 5m-5-5v12" />
                             </svg>
                         </div>
                     </div>
@@ -278,7 +278,7 @@ function SpareHistory() {
                             <span>{item.removed}</span>
      
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 font-bold text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 13l-5 5m0 0l-5-5m5 5V6" />
                             </svg>
                         </div>
                     </div>
@@ -329,7 +329,7 @@ function SpareHistory() {
                         placeholder="Search by keyword"
                     />
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
             </div>
@@ -347,7 +347,7 @@ function SpareHistory() {
                 {
                     loading && 
                     (
-                        <div class="w-full h-full flex justify-center items-center space-x-5 mt-24">
+                        <div className="w-full h-full flex justify-center items-center space-x-5 mt-24">
                             <div
                                 className="animate-spin rounded-full h-8 w-8 border-b-4 border-blue-500"
                             />

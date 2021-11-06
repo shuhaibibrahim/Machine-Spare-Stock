@@ -31,13 +31,12 @@ function App() {
           if (user) {
               setUser(user);
 
-              // console.log(user)
-              
+              // 
               const userRef = ref(db, `users/${user.uid}`);
 
               onValue(userRef, (snapshot) => {
                   const data = snapshot.val();
-                  console.log("data : ",data);
+                  ;
                   
                   setIsAdmin(data.admin)
               });

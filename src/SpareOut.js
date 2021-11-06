@@ -31,7 +31,7 @@ function SpareOut() {
 
         var oldQty=item.qty
         var newQty=parseInt(item.qty)>=parseInt(myqty)?parseInt(item.qty)-parseInt(myqty):0
-        console.log("qty : ",myqty)
+        
         //updating quantity
         set(spareRef, {
             ...item,
@@ -48,7 +48,7 @@ function SpareOut() {
             )
 
             var currentDate=new Date().toLocaleString()
-            // console.log(currentDate)
+            // 
             //pushing histoty
             set(newHistoryRef, {
                 // spareId: item.id,
@@ -82,7 +82,7 @@ function SpareOut() {
     }
 
     const RenderModal=(item)=>{
-        // console.log("called")
+        // 
         setModal(
             <div onClick={backdropClickHandler} className="bg-white z-20 bg-opacity-95 fixed inset-0 flex justify-center items-center">
                 <div className="w-8/12 px-8 py-8 text-white h-auto flex flex-row bg-blue-700 rounded-xl justify-between">
@@ -218,7 +218,7 @@ function SpareOut() {
 
 
     const RenderItem=({item, index})=>{
-        // console.log("iten : ",item)
+        // 
         return (
             <div key={index} className="w-10/12 p-2 grid grid-cols-7">
                 <div className="flex items-center justify-center">
@@ -266,7 +266,7 @@ function SpareOut() {
 
         onValue(spareRef, (snapshot) => {
             const data = snapshot.val();
-            // console.log("data : ",data);
+            // ;
 
             var spareArray=[];
             for(var key in data)
@@ -274,9 +274,9 @@ function SpareOut() {
                 spareArray.push(data[key])
             }
 
-            // console.log(spareArray);
+            // ;
 
-            console.log("event called")
+            
             setSpareData(spareArray);
             setLoading(false);
         });
@@ -293,19 +293,19 @@ function SpareOut() {
         {
             const keys=["code","partName", "machine", "partNumber", "nickName", "spec", "origin"]
             var items=spareData.filter((item,index)=>{
-                // console.log(item,"keys : ", keys)
+                // 
                 var found=0;
                 keys.forEach(key=>{
                     if(item[key].includes(search))
                     {
-                        // console.log("item[key] : ",item[key], item[key].includes(search))
+                        // 
                         found=1;
                     }
                 })
                 return found===1
             })
 
-            // console.log(items)
+            // 
             if(items.length>0)
                 setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
             else
@@ -331,8 +331,8 @@ function SpareOut() {
                         className="rounded-3xl h-10 w-1/2 p-3 pl-4 focus:outline-none" 
                         placeholder="Search by keyword"
                     />
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
             </div>
