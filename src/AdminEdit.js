@@ -6,7 +6,6 @@ import { ref as sref, uploadBytes, getDownloadURL } from "firebase/storage";
 function AdminEdit() {
     // const location = useLocation()
     // const {spareData}=location.state
-    let history = useHistory();
 
     const [spareData, setSpareData] = useState([])
     
