@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { db, storage } from "./firebase_config";
 import { ref, set, push } from "firebase/database";
-import camera from './cup.jpg'
 import { ref as sref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function AdminAdd() {
@@ -132,7 +131,7 @@ function AdminAdd() {
                             <div className="text-left font-bold">TOTAL VALUE</div>
                             <div className="text-center font-bold">:</div>
                             <div className="text-left font-semibold">
-                                {spare.value!=""&&spare.qty!=""?parseInt(spare.value)*parseInt(spare.qty):0}
+                                {spare.value!==""&&spare.qty!==""?parseInt(spare.value)*parseInt(spare.qty):0}
                             </div>
                         </div>
                         <div className="w-full grid grid-cols-3">

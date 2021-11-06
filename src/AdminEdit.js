@@ -63,7 +63,7 @@ function AdminEdit() {
 
             var oldQty=item.qty
 
-            if(imageFile!="")
+            if(imageFile!=="")
             {
                 uploadBytes(storageRef, imageFile)
                 .then((snapshot) => {

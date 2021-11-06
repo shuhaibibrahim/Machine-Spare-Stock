@@ -55,7 +55,7 @@ function UserLogin() {
                         Email address
                     </label>
                     <input
-                        className="form-control block w-full mb-3 p-3"
+                        className="form-control block w-full mb-3 p-3 ring-2 ring-blue-200 focus:outline-none focus:ring-blue-400 rounded-xl"
                         type="email"
                         required
                         value={email}
@@ -69,7 +69,7 @@ function UserLogin() {
                     </label>
                     <div className="w-full relative flex flex-row items-center">
                         <input
-                            className="form-control block w-full p-3"
+                            className="form-control block w-full p-3 ring-2 ring-blue-200 focus:outline-none focus:ring-blue-400 rounded-xl"
                             type={view?"tet":"password"}
                             required
                             value={password}
