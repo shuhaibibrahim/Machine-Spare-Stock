@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useHistory } from 'react-router-dom'
-// import spareData from './DummyData'
-import camera from './cup.jpg'
 import { ref, set, onValue, push } from "firebase/database";
 import { db, storage } from "./firebase_config";
 import { ref as sref, uploadBytes, getDownloadURL } from "firebase/storage";

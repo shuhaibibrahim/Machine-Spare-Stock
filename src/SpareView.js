@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useHistory } from 'react-router-dom'
-// import spareData from './DummyData'
-import camera from './cup.jpg'
+import { Link, useHistory } from 'react-router-dom'
 import { ref, set, onValue } from "firebase/database";
 import { db } from "./firebase_config";
-import ReactExport from "react-export-excel";
 import * as XLSX from 'xlsx';
 
 

@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-// import spareData from './DummyData'
-import camera from './cup.jpg'
 import { ref, set, onValue, push, remove } from "firebase/database";
 import { ref as sref, deleteObject } from "firebase/storage";
 import { db, storage } from "./firebase_config";

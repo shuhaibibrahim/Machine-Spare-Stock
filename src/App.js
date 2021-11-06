@@ -1,6 +1,4 @@
-import logo from './logo.svg';
 import './App.css';
-import HomePage from './HomePage';
 import SpareIn from './SpareIn';
 import {
   BrowserRouter as Router,
@@ -17,7 +15,6 @@ import AdminEdit from './AdminEdit';
 import UserMain from './UserMain';
 import { useEffect, useState } from 'react';
 import { auth } from "./firebase_config";
-import AdminMain from './AdminMain';
 import AdminHome from './AdminHome';
 import { ref, set, onValue } from "firebase/database";
 import { db } from "./firebase_config";

@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { auth } from "./firebase_config";
-import {BrowserRouter,Routes,Route} from "react-router-dom"
+import React from 'react'
 import AdminLogin from './AdminLogin';
 import AdminHome from './AdminHome';
 

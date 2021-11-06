@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 // import historyData from './DummyData'
-import camera from './cup.jpg'
-import { ref, set, onValue } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 import { db } from "./firebase_config";
 
 function SpareHistory() {

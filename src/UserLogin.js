@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { auth } from "./firebase_config";
-import { ref, set, onValue, push } from "firebase/database";
+import { ref, set } from "firebase/database";
 import { db } from "./firebase_config";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
