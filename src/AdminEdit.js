@@ -47,7 +47,7 @@ function AdminEdit() {
 
     const backdropClickHandler = (event) => {
         if (event.target === event.currentTarget) {
-            setModal(<div/>)
+            setModalToggle(false)
             setImageFile("")
         }
     }
@@ -147,296 +147,303 @@ function AdminEdit() {
     const RenderModal=(item)=>{
         setModal(
             <div onClick={backdropClickHandler} className="bg-white z-20 bg-opacity-95 fixed inset-0 flex justify-center items-center">
-                <div className="w-8/12 px-8 py-8 text-white h-auto flex flex-row bg-blue-700 rounded-xl justify-between">
-                    <div className="flex flex-col space-y-4 items-start w-8/12">
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>CODE</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <input 
-                                type="text" 
-                                id="code" 
-                                value={modalItem.code} 
-                                onChange={(e)=>{setModalItem(
-                                        {
-                                            ...modalItem,
-                                            code:e.target.value
-                                        }
-                                    )
-                                }}
-                                className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                            />
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>PART NAME</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <input 
-                                type="text" 
-                                id="code" 
-                                value={modalItem.partName} 
-                                onChange={(e)=>{setModalItem(
-                                        {
-                                            ...modalItem,
-                                            partName:e.target.value
-                                        }
-                                    )
-                                }}
-                                className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                            />
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>MACHINE</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <input 
-                                type="text" 
-                                id="code" 
-                                value={modalItem.machine} 
-                                onChange={(e)=>{setModalItem(
-                                        {
-                                            ...modalItem,
-                                            machine:e.target.value
-                                        }
-                                    )
-                                }}
-                                className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                            />
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>PART NUMBER</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <input 
-                                type="text" 
-                                id="code" 
-                                value={modalItem.partNumber} 
-                                onChange={(e)=>{setModalItem(
-                                        {
-                                            ...modalItem,
-                                            partNumber:e.target.value
-                                        }
-                                    )
-                                }}
-                                className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                            />
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>NICKNAME</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <input 
-                                type="text" 
-                                id="code" 
-                                value={modalItem.nickName} 
-                                onChange={(e)=>{setModalItem(
-                                        {
-                                            ...modalItem,
-                                            nickName:e.target.value
-                                        }
-                                    )
-                                }}
-                                className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                            />
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>SPECIFICATION</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <input 
-                                type="text" 
-                                id="code" 
-                                value={modalItem.spec} 
-                                onChange={(e)=>{setModalItem(
-                                        {
-                                            ...modalItem,
-                                            spec:e.target.value
-                                        }
-                                    )
-                                }}
-                                className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                            />
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>VALUE (INR)</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <input 
-                                type="text" 
-                                id="code" 
-                                value={modalItem.value} 
-                                onChange={(e)=>{setModalItem(
-                                        {
-                                            ...modalItem,
-                                            value:e.target.value
-                                        }
-                                    )
-                                }}
-                                className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                            />
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>ORIGIN</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <input 
-                                type="text" 
-                                id="code" 
-                                value={modalItem.origin} 
-                                onChange={(e)=>{setModalItem(
-                                        {
-                                            ...modalItem,
-                                            origin:e.target.value
-                                        }
-                                    )
-                                }}
-                                className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                            />
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>REMARKS</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <input 
-                                type="text" 
-                                id="code" 
-                                value={modalItem.remarks} 
-                                onChange={(e)=>{setModalItem(
-                                        {
-                                            ...modalItem,
-                                            remarks:e.target.value
-                                        }
-                                    )
-                                }}
-                                className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                            />
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>Quantity</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <input 
-                                type="text" 
-                                id="code" 
-                                value={modalItem.qty} 
-                                onChange={(e)=>{setModalItem(
-                                        {
-                                            ...modalItem,
-                                            qty:e.target.value
-                                        }
-                                    )
-                                }}
-                                className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                            />
-                        </div>
-
+                <div className="flex-col w-8/12 bg-blue-700 rounded-xl ">
+                    <div className="flex flex-row justify-end px-8 pt-3">
+                        <svg onClick={()=>{setModalToggle(false)}} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
                     </div>
-                    <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
-                        <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">
-                            {/* <img className="h-64 w-56 rounded-xl" src={modalItem.image} alt="imageq1" /> */}
-                            <img className="h-64 w-56 rounded-xl" src={imageFile?URL.createObjectURL(imageFile):modalItem.image} alt="imageq1" />
-                        </div>
-
-                        <label className="w-full">
-                            <div className="text-left w-full" >Image {imageFile?`: ${imageFile.name}`:""} </div>
-                            <div className="
-                                w-full
-                                flex flex-row
-                                space-x-3
-                                items-center
-                                justify-center
-                                px-3
-                                h-8
-                                bg-white
-                                rounded-xl
-                                shadow-md
-                                tracking-wide
-                                border border-blue
-                                cursor-pointer
-                                hover:bg-purple-600 hover:text-white
-                                text-purple-600
-                                ease-linear
-                                transition-all
-                                duration-150
-                            ">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
-                                    <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
-                                </svg>
-                                <span class="text-base leading-normal uppercase">Select a file</span>
+                    <div className="w-full px-8 pb-8 pt-2 text-white h-auto flex flex-row justify-between">
+                        <div className="flex flex-col space-y-4 items-start w-8/12">
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>CODE</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
                                 <input 
-                                    id="image" 
-                                    type="file" 
-                                    class="hidden" 
-                                    onChange={e=>{
-                                        setImageFile(e.target.files[0])
-                                        setModalItem(
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.code} 
+                                    onChange={(e)=>{setModalItem(
                                             {
                                                 ...modalItem,
-                                                image:e.target.files[0]
+                                                code:e.target.value
                                             }
                                         )
-                                    }} 
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
                                 />
                             </div>
-                        </label>
 
-                        <button 
-                            className="p-1 w-full ring-4 ring-red-700 bg-red-600 hover:bg-red-500 rounded-2xl text-white font-semibold"
-                            onClick={e=>{pushToDatabase(modalItem)}}
-                        >
-                                Update
-                        </button>
-                        {/* <div className="flex flex-col space-y-4 w-full">
-                            <div className="w-full text-left font-bold">Take quantity : </div>
-                            <div className="flex flex-row w-full justify-between">
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>PART NAME</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
                                 <input 
-                                    id="qty"
-                                    type="number"
-                                    name="qty"
-                                    defaultValue={0}
-                                    min={0}
-                                    onChange={(e)=>{setQty(parseInt(e.target.value))}} 
-                                    // value={qty}
-                                    className="w-3/12 text-black pl-2 rounded-xl ring-4 ring-blue-900 focus:outline-none"
-                                    // className="text-black"
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.partName} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                partName:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
                                 />
-                                <button 
-                                    onClick={()=>{minusQuantity(item)}}
-                                    className="p-3 w-8/12 ring-4 ring-red-900 bg-red-600 hover:bg-red-800 rounded-xl text-white font-semibold"
-                                >Update
-                                </button>
                             </div>
-                        </div> */}
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>MACHINE</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.machine} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                machine:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>PART NUMBER</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.partNumber} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                partNumber:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>NICKNAME</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.nickName} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                nickName:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>SPECIFICATION</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.spec} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                spec:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>VALUE (INR)</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.value} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                value:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>ORIGIN</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.origin} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                origin:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>REMARKS</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.remarks} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                remarks:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>Quantity</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.qty} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                qty:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                        </div>
+                        <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
+                            <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">
+                                {/* <img className="h-64 w-56 rounded-xl" src={modalItem.image} alt="imageq1" /> */}
+                                <img className="h-64 w-56 rounded-xl" src={imageFile?URL.createObjectURL(imageFile):modalItem.image} alt="imageq1" />
+                            </div>
+
+                            <label className="w-full">
+                                <div className="text-left w-full" >Image {imageFile?`: ${imageFile.name}`:""} </div>
+                                <div className="
+                                    w-full
+                                    flex flex-row
+                                    space-x-3
+                                    items-center
+                                    justify-center
+                                    px-3
+                                    h-8
+                                    bg-white
+                                    rounded-xl
+                                    shadow-md
+                                    tracking-wide
+                                    border border-blue
+                                    cursor-pointer
+                                    hover:bg-purple-600 hover:text-white
+                                    text-purple-600
+                                    ease-linear
+                                    transition-all
+                                    duration-150
+                                ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
+                                        <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
+                                    </svg>
+                                    <span class="text-base leading-normal uppercase">Select a file</span>
+                                    <input 
+                                        id="image" 
+                                        type="file" 
+                                        class="hidden" 
+                                        onChange={e=>{
+                                            setImageFile(e.target.files[0])
+                                            setModalItem(
+                                                {
+                                                    ...modalItem,
+                                                    image:e.target.files[0]
+                                                }
+                                            )
+                                        }} 
+                                    />
+                                </div>
+                            </label>
+
+                            <button 
+                                className="p-1 w-full ring-4 ring-red-700 bg-red-600 hover:bg-red-500 rounded-2xl text-white font-semibold"
+                                onClick={e=>{pushToDatabase(modalItem)}}
+                            >
+                                    Update
+                            </button>
+                            {/* <div className="flex flex-col space-y-4 w-full">
+                                <div className="w-full text-left font-bold">Take quantity : </div>
+                                <div className="flex flex-row w-full justify-between">
+                                    <input 
+                                        id="qty"
+                                        type="number"
+                                        name="qty"
+                                        defaultValue={0}
+                                        min={0}
+                                        onChange={(e)=>{setQty(parseInt(e.target.value))}} 
+                                        // value={qty}
+                                        className="w-3/12 text-black pl-2 rounded-xl ring-4 ring-blue-900 focus:outline-none"
+                                        // className="text-black"
+                                    />
+                                    <button 
+                                        onClick={()=>{minusQuantity(item)}}
+                                        className="p-3 w-8/12 ring-4 ring-red-900 bg-red-600 hover:bg-red-800 rounded-xl text-white font-semibold"
+                                    >Update
+                                    </button>
+                                </div>
+                            </div> */}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 // import historyData from './DummyData'
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, remove } from "firebase/database";
 import { db } from "./firebase_config";
 
 function SpareHistory() {
@@ -22,14 +22,18 @@ function SpareHistory() {
     )
 
     const [loading, setLoading] = useState(true)
+    const [from, setFrom] = useState(null)
+    const [to, setTo] = useState(null)
+    const [minDate, setMinDate] = useState(null)
+    const [maxDate, setMaxDate] = useState(null)
 
     useEffect(() => {
 
         var historyRef;
-        if(spareId===undefined)
+        if(spareId===undefined) 
             historyRef = ref(db, 'history/');
         else    
-            historyRef = ref(db, `history/${spareId}`);
+            historyRef = ref(db, `history/${spareId}`); // for specific history of a spare from spareview page
 
         onValue(historyRef, (snapshot) => {
             const data = snapshot.val();
@@ -46,7 +50,11 @@ function SpareHistory() {
                     var spareItem=data[key]
                     for(var id in spareItem)
                     {
-                        historyArray.push(spareItem[id])
+                        historyArray.push({
+                            ...spareItem[id],
+                            historyId:id,
+                            selected:false
+                        })
                     }
                 }
             }
@@ -54,11 +62,27 @@ function SpareHistory() {
             {
                 for(var key in data)
                 {
-                    historyArray.push(data[key])
+                    historyArray.push({
+                        ...data[key],
+                        historyId:key
+                    })
                 }
             }
 
-            console.log("historyarray : ",historyArray);
+            if(historyArray[0]!==undefined)
+            {
+                console.log("historyarray : ",historyArray);
+                historyArray.sort((a,b)=> {
+                    if(a!==undefined)
+                        return a.date < b.date ? 1 : -1
+                    else
+                        return 1;
+                })
+                var maxD=historyArray[0].date.split(',')[0]
+                var minD=historyArray[historyArray.length-1].date.split(',')[0]
+            }
+            setMinDate(minD)
+            setMaxDate(maxD)
 
             setHistoryData(historyArray);
             setLoading(false);
@@ -74,134 +98,141 @@ function SpareHistory() {
     const RenderModal=(item)=>{
         setModal(
             <div onClick={backdropClickHandler} className="bg-white z-20 bg-opacity-95 fixed inset-0 flex justify-center items-center">
-                <div className="w-8/12 px-8 py-8 text-white h-auto flex flex-row bg-blue-700 rounded-xl justify-between">
-                    <div className="flex flex-col space-y-4 items-start w-8/12">
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>CODE</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <div className="text-left font-semibold">{item.code}</div>
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>PART NAME</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <div className="text-left font-semibold">{item.partName}</div>
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>MACHINE</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <div className="text-left font-semibold">{item.machine}</div>
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>PART NUMBER</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <div className="text-left font-semibold">{item.partNumber}</div>
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>NICKNAME</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <div className="text-left font-semibold">{item.nickName}</div>
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>SPECIFICATION</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <div className="text-left font-semibold">{item.spec}</div>
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>VALUE (INR)</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <div className="text-left font-semibold">{item.value}</div>
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>TOTAL VALUE</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <div className="text-left font-semibold">{parseInt(item.value)*parseInt(item.qty)}</div>
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>ORIGIN</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <div className="text-left font-semibold">{item.origin}</div>
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>REMARKS</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <div className="text-left font-semibold">{item.remarks}</div>
-                        </div>
-
-                        <div className="w-full grid grid-cols-2">
-                            <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                <span>Quantity</span> 
-                                <span>:</span>
-                            </div>
-                            {/* <div className="text-center font-bold">:</div> */}
-                            <div className="text-left font-semibold">{item.qty}</div>
-                        </div>
-
+                <div className="flex-col w-8/12 bg-blue-700 rounded-xl ">
+                    <div className="flex flex-row justify-end px-8 pt-3">
+                        <svg onClick={()=>{setModal(<div/>)}} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
                     </div>
-                    <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
-                        <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">
-                            <img className="h-64 w-56 rounded-xl" src={item.image} alt="imageq1" />
-                        </div>
-
-                        {/* <div className="flex flex-col space-y-4 w-full">
-                            <div className="w-full text-left font-bold">Take quantity : </div>
-                            <div className="flex flex-row w-full justify-between">
-                                <input 
-                                    id="qty"
-                                    type="number"
-                                    name="qty"
-                                    defaultValue={0}
-                                    min={0}
-                                    onChange={(e)=>{setQty(parseInt(e.target.value))}} 
-                                    // value={qty}
-                                    className="w-3/12 text-black pl-2 rounded-xl ring-4 ring-blue-900 focus:outline-none"
-                                    // className="text-black"
-                                />
-                                <button 
-                                    onClick={()=>{minusQuantity(item)}}
-                                    className="p-3 w-8/12 ring-4 ring-red-900 bg-red-600 hover:bg-red-800 rounded-xl text-white font-semibold"
-                                >Update
-                                </button>
+                    <div className="w-full px-8 pb-8 pt-2 text-white h-auto flex flex-row justify-between">
+                        <div className="flex flex-col space-y-4 items-start w-8/12">
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>CODE</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.code}</div>
                             </div>
-                        </div> */}
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>PART NAME</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.partName}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>MACHINE</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.machine}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>PART NUMBER</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.partNumber}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>NICKNAME</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.nickName}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>SPECIFICATION</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.spec}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>VALUE (INR)</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.value}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>TOTAL VALUE</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{parseInt(item.value)*parseInt(item.qty)}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>ORIGIN</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.origin}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>REMARKS</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.remarks}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>Quantity</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.qty}</div>
+                            </div>
+
+                        </div>
+                        <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
+                            <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">
+                                <img className="h-64 w-56 rounded-xl" src={item.image} alt="imageq1" />
+                            </div>
+
+                            {/* <div className="flex flex-col space-y-4 w-full">
+                                <div className="w-full text-left font-bold">Take quantity : </div>
+                                <div className="flex flex-row w-full justify-between">
+                                    <input 
+                                        id="qty"
+                                        type="number"
+                                        name="qty"
+                                        defaultValue={0}
+                                        min={0}
+                                        onChange={(e)=>{setQty(parseInt(e.target.value))}} 
+                                        // value={qty}
+                                        className="w-3/12 text-black pl-2 rounded-xl ring-4 ring-blue-900 focus:outline-none"
+                                        // className="text-black"
+                                    />
+                                    <button 
+                                        onClick={()=>{minusQuantity(item)}}
+                                        className="p-3 w-8/12 ring-4 ring-red-900 bg-red-600 hover:bg-red-800 rounded-xl text-white font-semibold"
+                                    >Update
+                                    </button>
+                                </div>
+                            </div> */}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -242,7 +273,8 @@ function SpareHistory() {
 
     const RenderItem=({item, index})=>{
         return (
-            <div key={index} className="w-10/12 p-2 grid grid-cols-7">
+            <div key={index} 
+            className={item.selected?" w-10/12 p-2 grid grid-cols-7 bg-black bg-opacity-20 ":" w-10/12 p-2 grid grid-cols-7 "}>
                 <div className="flex items-center justify-center">
                     <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.code}</div>
                 </div>
@@ -300,18 +332,88 @@ function SpareHistory() {
                 }
 
                 <div className="flex items-center justify-center">
-                    <div className="font-semibold text-sm bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.date}</div>
+                    <div className="flex flex-col justify-center items-center font-semibold text-sm bg-gray-300 p-5 rounded-xl w-10/12 break-all">
+                        <span>{item.date.split(',')[0]}</span>
+                        <span>{item.date.split(',')[1]}</span>
+                    </div>
                 </div>
 
-                <div className="flex items-center justify-center">
+                <div className="flex flex-row space-x-3 items-center justify-center">
                     <div 
                         className="font-semibold bg-blue-600 p-3 rounded-3xl w-10/12 break-all text-white hover:bg-blue-800"
                         onClick={()=>{RenderModal(item)}}
                     >View</div>
+
+                    <div>
+                        <input 
+                            type="checkbox"
+                            value={item.selected}
+                            checked={item.selected}
+                            onClick={e=>{
+                                var historyArray=[...historyData]
+                                historyArray[index].selected=!historyArray[index].selected
+                                setHistoryData([...historyArray])
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         )
     }
+
+    const selectHistory=()=>{
+        
+        if(historyData.length!=0 && (from!=null || to!=null))
+        {
+            var historyArray=[...historyData]
+            console.log("array here = ",historyData)
+    
+            historyArray=historyArray.map(item=>{
+                var itemDate=item.date.split(',')[0]
+                
+                var fromDate=from||minDate
+                var toDate=to||maxDate
+    
+                console.log(itemDate,"<=",toDate,itemDate>=toDate)
+    
+                if(itemDate>=fromDate && itemDate<=toDate)
+                {
+                    item.selected=true;
+                }
+                else
+                {
+                    item.selected=false;
+                }
+                return item;
+            })
+    
+            console.log("newarray",historyArray)
+            setHistoryData(historyArray)
+        }
+
+    }
+
+    const deleteHistory=()=>{
+        var confirm=window.confirm("Clear history data?")
+        if(!confirm)
+            return;
+        
+        var historyRef;
+        // if(spareId===undefined)
+        // {
+        historyData.forEach(item=>{
+            if(item.selected===true)
+            {
+                historyRef = ref(db, `history/${item.id}/${item.historyId}`);
+                remove(historyRef)
+            }
+        })
+        // }
+    }
+
+    useEffect(() => {
+        selectHistory()
+    }, [from, to]) //to change selected items on changing date range
 
     return (
         <div className="h-full">
@@ -330,6 +432,59 @@ function SpareHistory() {
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
+                </div>
+
+                <div className="flex flex-row justify-between w-4/12 mt-3">
+                    <div className="flex flex-col justify-center items-start w-5/12">
+                        <label htmlFor="from" className="font-vold text-black text-opacity-70">
+                            From
+                        </label>
+                        <input 
+                            id="from"
+                            type="date" 
+                            className="text-black text-opacity-70 p-1 focus:outline-none pl-3 ring-2 w-full ring-blue-100 focus:ring-blue-300 rounded-xl"
+                            onChange={(e)=>{
+                                var date=e.target.value.split('-')
+                                var yy=date[0]
+                                var mm=date[1]
+                                var dd=date[2]
+                                date=[dd,mm,yy].join('/')
+                                setFrom(date)
+                            }}
+                        />
+                    </div>
+
+                    <span className="flex items-center font-bold text-xl mt-6">-</span>
+
+                    <div className="flex flex-col justify-center items-start w-5/12">
+                        <label htmlFor="to" className="font-vold text-black text-opacity-70">
+                            to
+                        </label>
+                        <input 
+                            id="to"
+                            type="date" 
+                            className="text-black text-opacity-70 p-1 focus:outline-none pl-3 ring-2 w-full ring-blue-100 focus:ring-blue-300 rounded-xl"
+                            onChange={(e)=>{
+                                var date=e.target.value.split('-')
+                                var yy=date[0]
+                                var mm=date[1]
+                                var dd=date[2]
+                                date=[dd,mm,yy].join('/')
+                                setTo(date)
+                            }}
+                        />
+                    </div>
+
+                    <div className="flex flex-col justify-end">
+                        <div 
+                            className="rounded-xl bg-red-500 hover:bg-red-600 p-2"
+                            onClick={()=>{deleteHistory()}}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 text-white font-bold  w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
             </div>
 
