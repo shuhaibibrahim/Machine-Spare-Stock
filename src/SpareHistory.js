@@ -394,16 +394,21 @@ function SpareHistory() {
     }
 
     const deleteHistory=()=>{
-        var confirm=window.confirm("Clear history data?")
-        if(!confirm)
-            return;
         
         var historyRef;
         // if(spareId===undefined)
         // {
+        var selected=false
         historyData.forEach(item=>{
             if(item.selected===true)
             {
+                if(selected===false)
+                {
+                    var confirm=window.confirm("Clear history data?")
+                    selected=true
+                    if(!confirm)
+                        return;
+                }
                 historyRef = ref(db, `history/${item.id}/${item.historyId}`);
                 remove(historyRef)
             }
