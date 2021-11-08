@@ -185,7 +185,7 @@ function AdminDelete() {
 
             const newHistoryRef=push(historyRef)
     
-            var currentDate=new Date().toLocaleString()
+            var currentDate=new Date().toLocaleString('en-GB')
             var oldQty=item.qty
     
             set(newHistoryRef, {

@@ -79,7 +79,7 @@ function AdminEdit() {
                             image:url
                         })
                         .then((ref)=>{
-                            var currentDate=new Date().toLocaleString()
+                            var currentDate=new Date().toLocaleString('en-GB')
                             // console.log(currentDate)
                             //pushing histoty
                             set(newHistoryRef, {

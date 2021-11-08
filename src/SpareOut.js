@@ -44,7 +44,7 @@ function SpareOut() {
                 }
             )
 
-            var currentDate=new Date().toLocaleString()
+            var currentDate=new Date().toLocaleString('en-GB')
             // 
             //pushing histoty
             set(newHistoryRef, {
