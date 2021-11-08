@@ -36,32 +36,36 @@ function SpareView() {
                 code: item.code,
                 machine: item.machine,
                 Nickname: item.nickName,
-                origin: item.origin,
                 partName: item.partName,
                 partNumber: item.partNumber,
+                origin: item.origin,
+                minStock:item.minStock,
                 qty: item.qty,
-                remarks: item.remarks,
-                spec: item.spec,
                 unit: item.unit,
-                value: item.value
+                value: item.value,
+                totValue: parseInt(item.qty)*parseInt(item.value),
+                spec: item.spec,
+                life: item.life,
+                remarks: item.remarks,
             }
         })
 
         const fileName = 'test.xlsx';
         const Heading=[[
             "Code",
-            // "Id",
-            // "Image",
             "Machine",
             "Nickname",
-            "Origin",
             "Part Name",
             "Part Number",
+            "Origin",
+            "Minimum Stock",
             "Quantity",
-            "Remarks",
-            "Specification",
             "Unit",
             "Value",
+            "Total Value",
+            "Specification",
+            "Life",
+            "Remarks",
         ]]
 
 		var ws = XLSX.utils.json_to_sheet(excelData, { origin: 'A2', skipHeader: true });
@@ -311,7 +315,7 @@ function SpareView() {
     const RenderItem=({item, index})=>{
         
         return (
-            <div key={index} className="w-10/12 p-2 grid grid-cols-8">
+            <div key={index} className={item.qty<item.minStock?"w-10/12 p-2 grid grid-cols-8 bg-red-400 rounded-xl bg-opacity-90 ring-2 ring-red-500":"w-10/12 p-2 grid grid-cols-8"}>
                 <div className="flex items-center justify-center">
                     <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.code}</div>
                 </div>
@@ -379,14 +383,14 @@ function SpareView() {
 
                 <div className="flex flex-row space-x-6 mt-6">
                     <Link to="/sparehistory"
-                        className="bg-yellow-400 text-sm font-bold text-white p-4 rounded-3xl"
+                        className="bg-yellow-400 hover:bg-yellow-500 text-sm font-bold text-white p-4 rounded-3xl"
                         onClick={()=>{}}
                     >
                             VIEW HISTORY
                     </Link>
 
                     <button
-                        className="bg-green-400 text-sm font-bold text-white p-4 rounded-3xl"
+                        className="bg-green-400 hover:bg-green-500 text-sm font-bold text-white p-4 rounded-3xl"
                         onClick={()=>{DownloadExcel(spareData)}}
                     >
                             EXPORT EXCEL
