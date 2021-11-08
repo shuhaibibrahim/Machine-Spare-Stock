@@ -365,6 +365,48 @@ function AdminEdit() {
                                 />
                             </div>
 
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>Life (in days)</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="number" 
+                                    id="life" 
+                                    value={modalItem.life} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                life:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>Minimum Stock</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="number" 
+                                    id="minStock" 
+                                    value={modalItem.minStock} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                minStock:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
                         </div>
                         <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
                             <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">
@@ -398,19 +440,30 @@ function AdminEdit() {
                                         <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
                                         <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
                                     </svg>
-                                    <span class="text-base leading-normal uppercase">Select a file</span>
+                                    <span class="text-base leading-normal uppercase">Select a file (Max 45kb)</span>
                                     <input 
                                         id="image" 
                                         type="file" 
                                         class="hidden" 
                                         onChange={e=>{
-                                            setImageFile(e.target.files[0])
-                                            setModalItem(
+                                            if(e.target.files[0])
+                                            {
+                                                if(e.target.files[0].size<=46080)
                                                 {
-                                                    ...modalItem,
-                                                    image:e.target.files[0]
+                                                    setImageFile(e.target.files[0])
+                                                    setModalItem(
+                                                        {
+                                                            ...modalItem,
+                                                            image:e.target.files[0]
+                                                        }
+                                                    )
+                                                }    
+                                                else    
+                                                {
+                                                    e.target.files=null
+                                                    alert("File size more than 45kb")
                                                 }
-                                            )
+                                            }
                                         }} 
                                     />
                                 </div>

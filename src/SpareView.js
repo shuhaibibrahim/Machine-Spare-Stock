@@ -225,6 +225,24 @@ function SpareView() {
                                 <div className="text-left font-semibold">{item.qty}</div>
                             </div>
 
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>Life (in days)</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.life}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>Minimum Stock</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.minStock}</div>
+                            </div>
+
                         </div>
                         <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
                             <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">

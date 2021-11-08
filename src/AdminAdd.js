@@ -153,7 +153,18 @@ function AdminAdd() {
                             <div className="text-center font-bold">:</div>
                             <div className="text-left font-semibold">{spare.qty}</div>
                         </div>
+                        <div className="w-full grid grid-cols-3">
+                            <div className="text-left font-bold">Life (in days)</div>
+                            <div className="text-center font-bold">:</div>
+                            <div className="text-left font-semibold">{spare.life}</div>
+                        </div>
+                        <div className="w-full grid grid-cols-3">
+                            <div className="text-left font-bold">Minimum Stock</div>
+                            <div className="text-center font-bold">:</div>
+                            <div className="text-left font-semibold">{spare.minStock}</div>
+                        </div>
                     </div>
+                    
                     <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
                         <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">
                             <img className="h-64 w-56 rounded-xl" src={imageFile?URL.createObjectURL(imageFile):""} alt="imageq1" />
@@ -305,8 +316,18 @@ function AdminAdd() {
                                             <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
                                             <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
                                         </svg>
-                                        <span class="text-base leading-normal uppercase">Select a file</span>
-                                        <input id="image" type="file" class="hidden" onChange={e=>{setImageFile(e.target.files[0])}} />
+                                        <span class="text-base leading-normal uppercase">Select a file (max 45kb)</span>
+                                        <input 
+                                            id="image" 
+                                            type="file" 
+                                            class="hidden" 
+                                            onChange={e=>{
+                                                if(e.target.files[0].size<=46080)
+                                                    setImageFile(e.target.files[0])
+                                                else    
+                                                    alert("File size more than 45kb")
+                                            }} 
+                                        />
                                     </div>
                                 </label>
                             </div>
