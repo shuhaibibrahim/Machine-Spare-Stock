@@ -13,6 +13,8 @@ function AdminEdit() {
     const [Modal, setModal] = useState(<div/>)
     const [modalItem, setModalItem] = useState({})
 
+    const [updateLoad, setUpdateLoad] = useState(false)
+
     const [imageFile, setImageFile] = useState("")
 
     const [search, setSearch] = useState("")
@@ -54,6 +56,7 @@ function AdminEdit() {
 
     const pushToDatabase = (item) => {
         // console.log(user);const db = getDatabase();
+            setUpdateLoad(true)
 
             const spareRef = ref(db, `spares/${item.id}`);
             const storageRef = sref(storage,`spares/${item.id}`);
@@ -90,6 +93,8 @@ function AdminEdit() {
                                 date: currentDate
                             })
                             .then(()=>{
+                                setUpdateLoad(false)
+                                setModal(<div/>)
                                 alert("Successfully updated")
                             })
                             .catch((error)=>{
@@ -97,7 +102,6 @@ function AdminEdit() {
                             })
                             console.log(ref)
 
-                            setModal(<div/>)
                         })
                         .catch((error)=>{
                             alert("Error while saving data : ",error)
@@ -130,13 +134,14 @@ function AdminEdit() {
                         date: currentDate
                     })
                     .then(()=>{
+                        setUpdateLoad(false)
+                        setModal(<div/>)
                         alert("Successfully updated")
                     })
                     .catch((error)=>{
                         alert("Error while saving data : ",error)
                     })
 
-                    setModal(<div/>)
                 })
                 .catch((error)=>{
                     alert("Error while saving data : ",error)
@@ -581,6 +586,13 @@ function AdminEdit() {
 
     return (
         <div className="h-full">
+            {updateLoad&&(<div className="bg-white z-40 bg-opacity-95 fixed inset-0 flex justify-center items-center">
+                    <div class="w-full h-full flex justify-center items-center space-x-5 mt-24">
+                        <div
+                            className="animate-spin rounded-full h-8 w-8 border-b-4 border-blue-500"
+                        />
+                    </div>
+                </div>)}
             {modalToggle&&Modal}
             <div className="h-5/12 pt-12 pb-6 flex flex-col items-center bg-blue-200 filter drop-shadow-lg w-full">
                 <div className="font-bold text-5xl w-full text-center text-gray-900">EDIT SPARE</div>

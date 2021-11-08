@@ -23,9 +23,11 @@ function AdminAdd() {
     })
     const [imageFile, setImageFile] = useState("")
     const [Modal, setModal] = useState(<div/>)
+    const [updateLoad, setUpdateLoad] = useState(false)
 
     const pushToDatabase = () => {
         // console.log(user);const db = getDatabase();
+            setUpdateLoad(true)
 
             const spareRef = ref(db, `spares/`);
             const newSpareRef = push(spareRef);
@@ -47,6 +49,7 @@ function AdminAdd() {
                         id:newSpareRef.key
                     })
                     .then((ref)=>{
+                        setUpdateLoad(false)
                         alert("Successfully updated")
                         console.log(ref)
         
@@ -186,6 +189,14 @@ function AdminAdd() {
 
     return (
         <div>
+            {updateLoad&&(<div className="bg-white z-40 bg-opacity-95 fixed inset-0 flex justify-center items-center">
+                    <div class="w-full h-full flex justify-center items-center space-x-5 mt-24">
+                        <div
+                            className="animate-spin rounded-full h-8 w-8 border-b-4 border-blue-500"
+                        />
+                    </div>
+                </div>)}
+                
             {Modal}
             <div className="p-12 flex flex-row items-center bg-blue-200 filter drop-shadow-lg w-full">
                 <div className="font-bold text-5xl w-full text-center text-gray-900">SPARE ADD</div>
