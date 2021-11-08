@@ -17,6 +17,8 @@ function AdminAdd() {
         machine:"",
         remarks:"",
         image:"",
+        life:0,
+        minStock:0,
         id:""
     })
     const [imageFile, setImageFile] = useState("")
@@ -60,7 +62,9 @@ function AdminAdd() {
                             origin:"",
                             machine:"",
                             remarks:"",
-                            image:""
+                            image:"",
+                            life:0,
+                            minStock:0
                         })
                         setModal(<div/>)
                     })
@@ -221,15 +225,16 @@ function AdminAdd() {
                                 </label>
                                 <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="qty" value={spare.qty} onChange={(e)=>{setSpare({...spare, qty:e.target.value})}} />
                             </div>
-                        </div>
-
-                        <div className="py-4 px-4 bg-blue-300 flex flex-col items-center justify-center space-y-2 rounded-2xl w-full">
+                            
                             <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
                                 <label htmlFor="unit">
                                     <div className="w-full text-left">Unit </div>
                                 </label>
                                 <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="unit" value={spare.unit} onChange={(e)=>{setSpare({...spare, unit:e.target.value})}} />
                             </div>
+                        </div>
+
+                        <div className="py-4 px-4 bg-blue-300 flex flex-col items-center justify-center space-y-2 rounded-2xl w-full">
 
                             <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
                                 <label htmlFor="value">
@@ -257,6 +262,20 @@ function AdminAdd() {
                                     <div className="w-full text-left">Remarks </div>
                                 </label>
                                 <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="remarks" value={spare.remarks} onChange={(e)=>{setSpare({...spare, remarks:e.target.value})}} />
+                            </div>
+
+                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
+                                <label htmlFor="life">
+                                    <div className="w-full text-left">Life (in days)</div>
+                                </label>
+                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="number" id="life" value={spare.life} onChange={(e)=>{setSpare({...spare, life:e.target.value})}} />
+                            </div>
+
+                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
+                                <label htmlFor="minStock">
+                                    <div className="w-full text-left">Minimum Stock</div>
+                                </label>
+                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="number" id="minStock" value={spare.minStock} onChange={(e)=>{setSpare({...spare, minStock:e.target.value})}} />
                             </div>
 
                             <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
