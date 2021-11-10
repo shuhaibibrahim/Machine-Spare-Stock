@@ -313,9 +313,22 @@ function SpareView() {
     }, [search, spareData])
 
     const RenderItem=({item, index})=>{
-        
+        var rowclass=" w-10/12 p-2 grid grid-cols-8 "
+        var qty=parseInt(item.qty)
+        var minStock=parseInt(item.minStock)
+
+        // console.log(item.code," : ","qty : ",qty,"minstock:",minStock, " : ",qty-minStock,qty<minStock)
+        if(qty<minStock)
+            rowclass+=" bg-red-400 rounded-xl bg-opacity-90 "
+        else if(qty==minStock)
+        {
+            rowclass+=" bg-yellow-400 rounded-xl bg-opacity-90 "
+            // console.log(rowclass)
+        }
+
         return (
-            <div key={index} className={item.qty<item.minStock?"w-10/12 p-2 grid grid-cols-8 bg-red-400 rounded-xl bg-opacity-90 ring-2 ring-red-500":"w-10/12 p-2 grid grid-cols-8"}>
+            // <div key={index} className={item.qty<item.minStock?"w-10/12 p-2 grid grid-cols-8 bg-red-400 rounded-xl bg-opacity-90 ring-2 ring-red-500":"w-10/12 p-2 grid grid-cols-8"}>
+            <div key={index} className={rowclass}>
                 <div className="flex items-center justify-center">
                     <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.code}</div>
                 </div>
