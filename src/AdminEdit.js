@@ -152,14 +152,15 @@ function AdminEdit() {
     const RenderModal=(item)=>{
         setModal(
             <div onClick={backdropClickHandler} className="bg-white z-20 bg-opacity-95 fixed inset-0 flex justify-center items-center">
-                <div className="flex-col w-8/12 bg-blue-700 rounded-xl ">
-                    <div className="flex flex-row justify-end px-8 pt-3">
+                <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">
+                    <div className="flex flex-row justify-end px-8 pt-3 ">
                         <svg onClick={()=>{setModalToggle(false)}} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <div className="w-full px-8 pb-8 pt-2 text-white h-auto flex flex-row justify-between">
-                        <div className="flex flex-col space-y-4 items-start w-8/12">
+
+                    <div className="w-full h-lg px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
+                        <div className="mr-3 overflow-y-scroll flex flex-col space-y-4 items-start w-8/12">
                             <div className="w-full grid grid-cols-2">
                                 <div className="text-left font-bold flex flex-row justify-between mr-3">
                                     <span>CODE</span> 
@@ -279,6 +280,69 @@ function AdminEdit() {
                                             {
                                                 ...modalItem,
                                                 spec:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>LOCAL QUANTITY</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="number" 
+                                    id="code" 
+                                    value={modalItem.localQty} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                localQty:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>LOCAL VENDOR</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.localVendor} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                localVendor:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>UNIT</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.unit} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                unit:e.target.value
                                             }
                                         )
                                     }}
@@ -428,6 +492,7 @@ function AdminEdit() {
                                     items-center
                                     justify-center
                                     px-3
+                                    py-7
                                     h-8
                                     bg-white
                                     rounded-xl
@@ -445,7 +510,10 @@ function AdminEdit() {
                                         <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
                                         <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
                                     </svg>
-                                    <span class="text-base leading-normal uppercase">Select a file (Max 45kb)</span>
+                                    <div class="text-base leading-normal uppercase flex flex-col justify-center items-center">
+                                        <span>Select a file</span>
+                                        <span>(Max 45kb)</span>
+                                    </div>
                                     <input 
                                         id="image" 
                                         type="file" 

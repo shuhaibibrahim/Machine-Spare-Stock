@@ -32,14 +32,15 @@ function AdminDelete() {
     const RenderModal=(item)=>{
         setModal(
             <div onClick={backdropClickHandler} className="bg-white z-20 bg-opacity-95 fixed inset-0 flex justify-center items-center">
-                <div className="flex-col w-8/12 bg-blue-700 rounded-xl ">
-                    <div className="flex flex-row justify-end px-8 pt-3">
+                <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">
+                    <div className="flex flex-row justify-end px-8 pt-3 ">
                         <svg onClick={()=>{setModalToggle(false)}} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <div className="w-full px-8 pb-8 pt-2 text-white h-auto flex flex-row justify-between">
-                        <div className="flex flex-col space-y-4 items-start w-8/12">
+
+                    <div className="w-full h-lg px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
+                        <div className="mr-3 overflow-y-scroll flex flex-col space-y-4 items-start w-8/12">
                             <div className="w-full grid grid-cols-2">
                                 <div className="text-left font-bold flex flex-row justify-between mr-3">
                                     <span>CODE</span> 
@@ -96,6 +97,34 @@ function AdminDelete() {
 
                             <div className="w-full grid grid-cols-2">
                                 <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>LOCAL QUANTITY</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.localQty}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>LOCAL VENDOR</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.localVendor}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>UNIT</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.unit}</div>
+                            </div>
+
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
                                     <span>VALUE (INR)</span> 
                                     <span>:</span>
                                 </div>
@@ -132,7 +161,7 @@ function AdminDelete() {
 
                             <div className="w-full grid grid-cols-2">
                                 <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>Quantity</span> 
+                                    <span>QUANTITY</span> 
                                     <span>:</span>
                                 </div>
                                 {/* <div className="text-center font-bold">:</div> */}
@@ -141,7 +170,7 @@ function AdminDelete() {
 
                             <div className="w-full grid grid-cols-2">
                                 <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>Life (in days)</span> 
+                                    <span>LIFE (in days)</span> 
                                     <span>:</span>
                                 </div>
                                 {/* <div className="text-center font-bold">:</div> */}
@@ -150,7 +179,7 @@ function AdminDelete() {
 
                             <div className="w-full grid grid-cols-2">
                                 <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>Minimum Stock</span> 
+                                    <span>MINIMUM STOCK</span> 
                                     <span>:</span>
                                 </div>
                                 {/* <div className="text-center font-bold">:</div> */}

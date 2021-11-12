@@ -60,6 +60,8 @@ function AdminAdd() {
                             nickName:"",
                             spec:"",
                             qty:"",
+                            localQty:"",
+                            localVendor:"",
                             unit:"",
                             value:"",
                             origin:"",
@@ -97,89 +99,112 @@ function AdminAdd() {
         console.log(spare)
         setModal(
             <div onClick={backdropClickHandler} className="bg-white z-20 bg-opacity-95 fixed inset-0 flex justify-center items-center">
-                <div className="w-8/12 px-8 py-8 text-white h-auto flex flex-row bg-blue-700 rounded-xl justify-between">
-                    <div className="flex flex-col space-y-4 items-start w-8/12">
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">CODE</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">{spare.code}</div>
-                        </div>
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">PART NAME</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">{spare.partName}</div>
-                        </div>
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">MACHINE</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">{spare.machine}</div>
-                        </div>
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">PART NUMBER</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">{spare.partNumber}</div>
-                        </div>
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">NICKNAME</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">{spare.nickName}</div>
-                        </div>
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">SPECIFICATION</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">{spare.spec}</div>
-                        </div>
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">VALUE (INR)</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">{spare.value}</div>
-                        </div>
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">TOTAL VALUE</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">
-                                {spare.value!==""&&spare.qty!==""?parseInt(spare.value)*parseInt(spare.qty):0}
+                <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">
+                    <div className="flex flex-row justify-end px-8 pt-3 ">
+                        <svg onClick={()=>{setModal(<div/>)}} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+
+                    <div className="w-full h-lg px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
+                        <div className="mr-3 overflow-y-scroll flex flex-col space-y-4 items-start w-8/12">
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">CODE</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.code}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">PART NAME</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.partName}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">MACHINE</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.machine}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">PART NUMBER</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.partNumber}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">NICKNAME</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.nickName}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">SPECIFICATION</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.spec}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">LOCAL QUANTITY</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.localQty}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">LOCAL VENDOR</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.localVendor}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">UNIT</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.unit}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">VALUE (INR)</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.value}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">TOTAL VALUE</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">
+                                    {spare.value!==""&&spare.qty!==""?parseInt(spare.value)*parseInt(spare.qty):0}
+                                </div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">ORIGIN</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.origin}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">REMARKS</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.remarks}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">QUANTITY</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.qty}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">LIFE (in days)</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.life}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">MINIMUM STOCK</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.minStock}</div>
                             </div>
                         </div>
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">ORIGIN</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">{spare.origin}</div>
-                        </div>
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">REMARKS</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">{spare.remarks}</div>
-                        </div>
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">Quantity</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">{spare.qty}</div>
-                        </div>
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">Life (in days)</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">{spare.life}</div>
-                        </div>
-                        <div className="w-full grid grid-cols-3">
-                            <div className="text-left font-bold">Minimum Stock</div>
-                            <div className="text-center font-bold">:</div>
-                            <div className="text-left font-semibold">{spare.minStock}</div>
-                        </div>
-                    </div>
-                    
-                    <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
-                        <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">
-                            <img className="h-64 w-56 rounded-xl" src={imageFile?URL.createObjectURL(imageFile):""} alt="imageq1" />
-                        </div>
+                        
+                        <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
+                            <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">
+                                <img className="h-64 w-56 rounded-xl" src={imageFile?URL.createObjectURL(imageFile):""} alt="imageq1" />
+                            </div>
 
-                        <div className="flex flex-row justify-end w-full">
-                            <button 
-                                className="p-3 w-7/12 ring-4 ring-red-700 bg-red-600 hover:bg-red-500 rounded-2xl text-white font-semibold"
-                                onClick={e=>{pushToDatabase()}}
-                            >
-                                    Confirm
-                            </button>
+                            <div className="flex flex-row justify-end w-full">
+                                <button 
+                                    className="p-3 w-7/12 ring-4 ring-red-700 bg-red-600 hover:bg-red-500 rounded-2xl text-white font-semibold"
+                                    onClick={e=>{pushToDatabase()}}
+                                >
+                                        Confirm
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -247,6 +272,24 @@ function AdminAdd() {
                                 </label>
                                 <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="qty" value={spare.qty} onChange={(e)=>{setSpare({...spare, qty:e.target.value})}} />
                             </div>
+
+                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
+                                <label htmlFor="localQty">
+                                    <div className="w-full text-left">Local Quantity </div>
+                                </label>
+                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="number" id="localQty" value={spare.localQty} onChange={(e)=>{setSpare({...spare, localQty:e.target.value})}} />
+                            </div>
+
+                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
+                                <label htmlFor="localVendor">
+                                    <div className="w-full text-left">Local Vendor </div>
+                                </label>
+                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="localVendor" value={spare.localVendor} onChange={(e)=>{setSpare({...spare, localVendor:e.target.value})}} />
+                            </div>
+                            
+                        </div>
+
+                        <div className="py-4 px-4 bg-blue-300 flex flex-col items-center justify-center space-y-2 rounded-2xl w-full">
                             
                             <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
                                 <label htmlFor="unit">
@@ -254,9 +297,6 @@ function AdminAdd() {
                                 </label>
                                 <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="unit" value={spare.unit} onChange={(e)=>{setSpare({...spare, unit:e.target.value})}} />
                             </div>
-                        </div>
-
-                        <div className="py-4 px-4 bg-blue-300 flex flex-col items-center justify-center space-y-2 rounded-2xl w-full">
 
                             <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
                                 <label htmlFor="value">
