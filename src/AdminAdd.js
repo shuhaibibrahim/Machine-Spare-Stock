@@ -139,21 +139,6 @@ function AdminAdd() {
                                 <div className="text-left font-semibold">{spare.spec}</div>
                             </div>
                             <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">LOCAL QUANTITY</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.localQty}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">LOCAL VENDOR</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.localVendor}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">UNIT</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.unit}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
                                 <div className="text-left font-bold">VALUE (INR)</div>
                                 <div className="text-center font-bold">:</div>
                                 <div className="text-left font-semibold">{spare.value}</div>
@@ -179,6 +164,21 @@ function AdminAdd() {
                                 <div className="text-left font-bold">QUANTITY</div>
                                 <div className="text-center font-bold">:</div>
                                 <div className="text-left font-semibold">{spare.qty}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">LOCAL QUANTITY</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.localQty}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">UNIT</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.unit}</div>
+                            </div>
+                            <div className="w-full grid grid-cols-3">
+                                <div className="text-left font-bold">LOCAL VENDOR</div>
+                                <div className="text-center font-bold">:</div>
+                                <div className="text-left font-semibold">{spare.localVendor}</div>
                             </div>
                             <div className="w-full grid grid-cols-3">
                                 <div className="text-left font-bold">LIFE (in days)</div>

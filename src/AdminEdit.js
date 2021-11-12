@@ -289,69 +289,6 @@ function AdminEdit() {
 
                             <div className="w-full grid grid-cols-2">
                                 <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>LOCAL QUANTITY</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <input 
-                                    type="number" 
-                                    id="code" 
-                                    value={modalItem.localQty} 
-                                    onChange={(e)=>{setModalItem(
-                                            {
-                                                ...modalItem,
-                                                localQty:e.target.value
-                                            }
-                                        )
-                                    }}
-                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                                />
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>LOCAL VENDOR</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <input 
-                                    type="text" 
-                                    id="code" 
-                                    value={modalItem.localVendor} 
-                                    onChange={(e)=>{setModalItem(
-                                            {
-                                                ...modalItem,
-                                                localVendor:e.target.value
-                                            }
-                                        )
-                                    }}
-                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                                />
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>UNIT</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <input 
-                                    type="text" 
-                                    id="code" 
-                                    value={modalItem.unit} 
-                                    onChange={(e)=>{setModalItem(
-                                            {
-                                                ...modalItem,
-                                                unit:e.target.value
-                                            }
-                                        )
-                                    }}
-                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                                />
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
                                     <span>VALUE (INR)</span> 
                                     <span>:</span>
                                 </div>
@@ -427,6 +364,69 @@ function AdminEdit() {
                                             {
                                                 ...modalItem,
                                                 qty:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+                            
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>LOCAL QUANTITY</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="number" 
+                                    id="code" 
+                                    value={modalItem.localQty} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                localQty:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>UNIT</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.unit} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                unit:e.target.value
+                                            }
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>LOCAL VENDOR</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type="text" 
+                                    id="code" 
+                                    value={modalItem.localVendor} 
+                                    onChange={(e)=>{setModalItem(
+                                            {
+                                                ...modalItem,
+                                                localVendor:e.target.value
                                             }
                                         )
                                     }}

@@ -97,34 +97,6 @@ function AdminDelete() {
 
                             <div className="w-full grid grid-cols-2">
                                 <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>LOCAL QUANTITY</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.localQty}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>LOCAL VENDOR</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.localVendor}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>UNIT</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.unit}</div>
-                            </div>
-
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
                                     <span>VALUE (INR)</span> 
                                     <span>:</span>
                                 </div>
@@ -166,6 +138,33 @@ function AdminDelete() {
                                 </div>
                                 {/* <div className="text-center font-bold">:</div> */}
                                 <div className="text-left font-semibold">{item.qty}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>LOCAL QUANTITY</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.localQty}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>UNIT</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.unit}</div>
+                            </div>
+
+                            <div className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>LOCAL VENDOR</span> 
+                                    <span>:</span>
+                                </div>
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <div className="text-left font-semibold">{item.localVendor}</div>
                             </div>
 
                             <div className="w-full grid grid-cols-2">
