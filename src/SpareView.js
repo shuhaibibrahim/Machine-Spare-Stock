@@ -42,7 +42,7 @@ function SpareView() {
             var ogValue=item.value||0
             var localValue=item.localValue||0
 
-            item["totalQty"]=(parseFloat(qty)+parseFloat(localQty)+parseFloat(servQty)).toPrecision(4)
+            item["totalQty"]=parseInt(qty)+parseInt(localQty)+parseInt(servQty)
             item["totalValue"]=(parseFloat(qty)*parseFloat(ogValue)+parseFloat(localQty)*parseFloat(localValue)).toPrecision(10)
             
             // console.log("item : ",item)
@@ -107,7 +107,7 @@ function SpareView() {
                 var ogValue=item.value||0
                 var localValue=item.localValue||0
     
-                item["totalQty"]=(parseFloat(qty)+parseFloat(localQty)+parseFloat(servQty)).toPrecision(4)
+                item["totalQty"]=parseInt(qty)+parseInt(localQty)+parseInt(servQty)
                 item["totalValue"]=(parseFloat(qty)*parseFloat(ogValue)+parseFloat(localQty)*parseFloat(localValue)).toPrecision(10)
                 spareArray.push(item)
             }

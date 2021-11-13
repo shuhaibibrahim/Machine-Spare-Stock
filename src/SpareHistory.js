@@ -72,7 +72,7 @@ function SpareHistory() {
                         var ogValue=spareItem[id].value||0
                         var localValue=spareItem[id].localValue||0
             
-                        spareItem[id]["totalQty"]=(parseFloat(qty)+parseFloat(localQty)+parseFloat(servQty)).toPrecision(4)
+                        spareItem[id]["totalQty"]=parseInt(qty)+parseInt(localQty)+parseInt(servQty)
                         spareItem[id]["totalValue"]=(parseFloat(qty)*parseFloat(ogValue)+parseFloat(localQty)*parseFloat(localValue)).toPrecision(10)
 
                         historyArray.push({
@@ -95,7 +95,7 @@ function SpareHistory() {
                     var ogValue=spareItem.value||0
                     var localValue=spareItem.localValue||0
         
-                    spareItem["totalQty"]=(parseFloat(qty)+parseFloat(localQty)+parseFloat(servQty)).toPrecision(4)
+                    spareItem["totalQty"]=parseInt(qty)+parseInt(localQty)+parseInt(servQty)
                     spareItem["totalValue"]=(parseFloat(qty)*parseFloat(ogValue)+parseFloat(localQty)*parseFloat(localValue)).toPrecision(10)
 
                     historyArray.push({
