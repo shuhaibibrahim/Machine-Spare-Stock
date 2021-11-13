@@ -177,7 +177,7 @@ function AdminAdd() {
                                             type={fieldKeys[index].split(":")[1]} 
                                             id={index} 
                                             value={spare[fieldKeys[index].split(":")[0]]} 
-                                            onChange={(e)=>{setSpare({...spare, code:e.target.value})}} 
+                                            onChange={(e)=>{setSpare({...spare, [fieldKeys[index].split(":")[0]]:e.target.value})}} 
                                         />
                                     </div>)
                             )}
