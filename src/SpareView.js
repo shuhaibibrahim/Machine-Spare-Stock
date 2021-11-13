@@ -214,13 +214,13 @@ function SpareView() {
 
     const RenderItem=({item, index})=>{
         var rowclass=" w-10/12 p-2 grid grid-cols-8 "
-        var qty=parseInt(item.qty)
+        var totalQty=parseInt(item.totalQty)
         var minStock=parseInt(item.minStock)
 
         // console.log(item.code," : ","qty : ",qty,"minstock:",minStock, " : ",qty-minStock,qty<minStock)
-        if(qty<minStock)
+        if(totalQty<minStock)
             rowclass+=" bg-red-400 rounded-xl bg-opacity-90 "
-        else if(qty==minStock)
+        else if(totalQty==minStock)
         {
             rowclass+=" bg-yellow-400 rounded-xl bg-opacity-90 "
             // console.log(rowclass)
