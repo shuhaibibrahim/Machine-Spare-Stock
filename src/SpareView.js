@@ -3,6 +3,8 @@ import { Link, useHistory } from 'react-router-dom'
 import { ref, set, onValue } from "firebase/database";
 import { db } from "./firebase_config";
 import * as XLSX from 'xlsx';
+import {fieldHeadings, fieldKeys} from "./Requirements"
+import { parse } from 'dotenv';
 
 
 function SpareView() {
@@ -19,7 +21,7 @@ function SpareView() {
         </div>
     )
 
-    const [qty, setQty] = useState(0)
+    // const [qty, setQty] = useState(0)
     const [loading, setLoading] = useState(true)
 
     function DownloadExcel() {
@@ -32,45 +34,50 @@ function SpareView() {
         // }
 
         const excelData=spareData.map(item=>{
-            return {
-                code: item.code,
-                machine: item.machine,
-                Nickname: item.nickName,
-                partName: item.partName,
-                partNumber: item.partNumber,
-                origin: item.origin,
-                minStock: item.minStock,
-                qty: item.qty,
-                localQty: item.localQty,
-                unit: item.unit,
-                localVendor: item.localVendor, 
-                value: item.value,
-                totValue: parseInt(item.qty)*parseInt(item.value),
-                spec: item.spec,
-                life: item.life,
-                remarks: item.remarks,
-            }
+
+            var qty=item.qty||0
+            var localQty=item.localQty||0
+            var servQty=item.servQty||0
+
+            var ogValue=item.value||0
+            var localValue=item.localValue||0
+
+            item["totalQty"]=(parseFloat(qty)+parseFloat(localQty)+parseFloat(servQty)).toPrecision(4)
+            item["totalValue"]=(parseFloat(qty)*parseFloat(ogValue)+parseFloat(localQty)*parseFloat(localValue)).toPrecision(10)
+            
+            // console.log("item : ",item)
+            
+            var data={}
+            fieldKeys.forEach(key=>{
+                var mykey=key.split(":")[0]
+                data={
+                    ...data,
+                    [mykey]:item[mykey]
+                }
+            })
+            return data;
         })
 
         const fileName = 'test.xlsx';
-        const Heading=[[
-            "Code",
-            "Machine",
-            "Nickname",
-            "Part Name",
-            "Part Number",
-            "Origin",
-            "Minimum Stock",
-            "Quantity",
-            "Local Quantity",
-            "Unit",
-            "Local Vendor Name",
-            "Value",
-            "Total Value",
-            "Specification",
-            "Life",
-            "Remarks",
-        ]]
+        // const Heading=[[
+        //     "Code",
+        //     "Machine",
+        //     "Nickname",
+        //     "Part Name",
+        //     "Part Number",
+        //     "Origin",
+        //     "Minimum Stock",
+        //     "Quantity",
+        //     "Local Quantity",
+        //     "Unit",
+        //     "Local Vendor Name",
+        //     "Value",
+        //     "Total Value",
+        //     "Specification",
+        //     "Life",
+        //     "Remarks",
+        // ]]
+        const Heading=[[...fieldHeadings]]
 
 		var ws = XLSX.utils.json_to_sheet(excelData, { origin: 'A2', skipHeader: true });
         var wb = XLSX.utils.book_new();
@@ -83,37 +90,32 @@ function SpareView() {
     }
 
     useEffect(() => {
+        console.log(fieldHeadings)
         const spareRef = ref(db, 'spares/');
 
         onValue(spareRef, (snapshot) => {
             const data = snapshot.val();
-            ;
 
             var spareArray=[];
             for(var key in data)
             {
-                spareArray.push(data[key])
+                var item=data[key]
+                var qty=item.qty||0
+                var localQty=item.localQty||0
+                var servQty=item.servQty||0
+    
+                var ogValue=item.value||0
+                var localValue=item.localValue||0
+    
+                item["totalQty"]=(parseFloat(qty)+parseFloat(localQty)+parseFloat(servQty)).toPrecision(4)
+                item["totalValue"]=(parseFloat(qty)*parseFloat(ogValue)+parseFloat(localQty)*parseFloat(localValue)).toPrecision(10)
+                spareArray.push(item)
             }
 
             setSpareData(spareArray);
             setLoading(false);
         });
     }, [])
-
-    const minusQuantity=(item)=>{
-        const spareRef = ref(db, `spares/${item.id}`);
-
-            set(spareRef, {
-                ...item,
-                qty:parseInt(item.qty)>=parseInt(qty)?parseInt(item.qty)-parseInt(qty):0
-            })
-            .then(()=>{
-                alert("Successfully updated")
-            })
-            .catch((error)=>{
-                alert("Error while saving data : ",error)
-            })
-    }
 
     const backdropClickHandler = (event) => {
         if (event.target === event.currentTarget) {
@@ -133,150 +135,17 @@ function SpareView() {
 
                     <div className="w-full h-lg px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
                         <div className="mr-3 overflow-y-scroll flex flex-col space-y-4 items-start w-8/12">
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>CODE</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.code}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>PART NAME</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.partName}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>MACHINE</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.machine}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>PART NUMBER</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.partNumber}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>NICKNAME</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.nickName}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>SPECIFICATION</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.spec}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>VALUE (INR)</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.value}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>TOTAL VALUE</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{parseInt(item.value)*parseInt(item.qty)}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>ORIGIN</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.origin}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>REMARKS</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.remarks}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>QUANTITY</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.qty}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>LOCAL QUANTITY</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.localQty}</div>
-                            </div>
                             
-                            <div className="w-full grid grid-cols-2">
+                            {fieldHeadings.map((heading,index)=>(
+                                <div className="w-full grid grid-cols-2">
                                 <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>UNIT</span> 
+                                    <span>{heading}</span> 
                                     <span>:</span>
                                 </div>
                                 {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.unit}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>LOCAL VENDOR</span> 
-                                    <span>:</span>
+                                <div className="text-left font-semibold">{item[fieldKeys[index].split(":")[0]]}</div>
                                 </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.localVendor}</div>
-                            </div>
-
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>LIFE (in days)</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.life}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>MINIMUM STOCK</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.minStock}</div>
-                            </div>
+                            ))}
 
                         </div>
                         <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
@@ -455,7 +324,7 @@ function SpareView() {
                 {
                     loading && 
                     (
-                        <div class="w-full h-full flex justify-center items-center space-x-5 mt-24">
+                        <div className="w-full h-full flex justify-center items-center space-x-5 mt-24">
                             <div
                                 className="animate-spin rounded-full h-8 w-8 border-b-4 border-blue-500"
                             />

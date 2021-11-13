@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ref, set, onValue, push } from "firebase/database";
 import { db, storage } from "./firebase_config";
 import { ref as sref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { fieldKeys, fieldHeadings } from './Requirements';
 
 function AdminEdit() {
     // const location = useLocation()
@@ -24,6 +25,11 @@ function AdminEdit() {
         </div>
     )
 
+    const [notInclude, setNotInclude]=useState({
+        "totalQty":true,
+        "totalValue":true
+    })
+
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -34,12 +40,21 @@ function AdminEdit() {
             console.log("data : ",data);
 
             var spareArray=[];
+            
             for(var key in data)
             {
-                spareArray.push(data[key])
+                var item=data[key]
+                var qty=item.qty||0
+                var localQty=item.localQty||0
+                var servQty=item.servQty||0
+    
+                var ogValue=item.value||0
+                var localValue=item.localValue||0
+    
+                item["totalQty"]=(parseFloat(qty)+parseFloat(localQty)+parseFloat(servQty)).toPrecision(4)
+                item["totalValue"]=(parseFloat(qty)*parseFloat(ogValue)+parseFloat(localQty)*parseFloat(localValue)).toPrecision(10)
+                spareArray.push(item)
             }
-
-            console.log("sparearray : ",spareArray);
 
             setSpareData(spareArray);
             setLoading(false);
@@ -161,6 +176,32 @@ function AdminEdit() {
 
                     <div className="w-full h-lg px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
                         <div className="mr-3 overflow-y-scroll flex flex-col space-y-4 items-start w-8/12">
+                            
+                            {fieldHeadings.map((heading,index)=>
+                                !(fieldKeys[index].split(":")[0] in notInclude)&&
+                                (
+                                <div key={index} className="w-full grid grid-cols-2">
+                                    <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                        <span>{heading}</span> 
+                                        <span>:</span>
+                                    </div>
+                                    {/* <div className="text-center font-bold">:</div> */}
+                                    <input 
+                                        type={fieldKeys[index].split(":")[1]} 
+                                        id={index} 
+                                        value={modalItem[fieldKeys[index].split(":")[0]]}
+                                        onChange={(e)=>{setModalItem(
+                                                {
+                                                    ...modalItem,
+                                                    [fieldKeys[index].split(":")[0]]:e.target.value
+                                                }
+                                            )
+                                        }}
+                                        className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                    />
+                                </div>
+                            ))}
+
                             <div className="w-full grid grid-cols-2">
                                 <div className="text-left font-bold flex flex-row justify-between mr-3">
                                     <span>CODE</span> 

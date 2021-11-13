@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { db, storage } from "./firebase_config";
 import { ref, set, push } from "firebase/database";
 import { ref as sref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { fieldHeadings, fieldKeys } from './Requirements';
 
 function AdminAdd() {
     const [spare, setSpare] = useState({
@@ -24,6 +25,11 @@ function AdminAdd() {
     const [imageFile, setImageFile] = useState("")
     const [Modal, setModal] = useState(<div/>)
     const [updateLoad, setUpdateLoad] = useState(false)
+    
+    const [notInclude, setNotInclude]=useState({
+        "totalQty":true,
+        "totalValue":true
+    })
 
     const pushToDatabase = () => {
         // console.log(user);const db = getDatabase();
@@ -108,88 +114,16 @@ function AdminAdd() {
 
                     <div className="w-full h-lg px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
                         <div className="mr-3 overflow-y-scroll flex flex-col space-y-4 items-start w-8/12">
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">CODE</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.code}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">PART NAME</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.partName}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">MACHINE</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.machine}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">PART NUMBER</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.partNumber}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">NICKNAME</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.nickName}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">SPECIFICATION</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.spec}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">VALUE (INR)</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.value}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">TOTAL VALUE</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">
-                                    {spare.value!==""&&spare.qty!==""?parseInt(spare.value)*parseInt(spare.qty):0}
+                            
+                            {fieldHeadings.map((heading,index)=>
+                            !(fieldKeys[index].split(":")[0] in notInclude)&&(
+                                <div className="w-full grid grid-cols-3">
+                                    <div className="text-left font-bold">{heading}</div>
+                                    <div className="text-center font-bold">:</div>
+                                    <div className="text-left font-semibold">{spare[fieldKeys[index].split(":")[0]]}</div>
                                 </div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">ORIGIN</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.origin}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">REMARKS</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.remarks}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">QUANTITY</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.qty}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">LOCAL QUANTITY</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.localQty}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">UNIT</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.unit}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">LOCAL VENDOR</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.localVendor}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">LIFE (in days)</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.life}</div>
-                            </div>
-                            <div className="w-full grid grid-cols-3">
-                                <div className="text-left font-bold">MINIMUM STOCK</div>
-                                <div className="text-center font-bold">:</div>
-                                <div className="text-left font-semibold">{spare.minStock}</div>
-                            </div>
+                            ))}
+                            
                         </div>
                         
                         <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
@@ -230,115 +164,23 @@ function AdminAdd() {
             <div className="flex flex-col justify-center items-center mb-4">
                 <form className="flex flex-col items-center justify-center w-10/12">
                     <div className="py-4 px-4 bg-blue-100 flex flex-row items-center justify-center space-x-3 rounded-2xl w-full">
-                        <div className="py-4 px-4 bg-blue-300 flex flex-col items-center justify-center space-y-2 rounded-2xl w-full">
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="code">
-                                    <div className="w-full text-left">Code </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="code" value={spare.code} onChange={(e)=>{setSpare({...spare, code:e.target.value})}} />
-                            </div>
+                        <div className="py-4 px-4 bg-blue-300 rounded-2xl w-full grid grid-cols-2 gap-4">
 
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="partName">
-                                    <div className="w-full text-left">Part Name </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="partName" value={spare.partName} onChange={(e)=>{setSpare({...spare, partName:e.target.value})}} />
-                            </div>
-
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="partNumber">
-                                    <div className="w-full text-left">Part Number </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="partNumber" value={spare.partNumber} onChange={(e)=>{setSpare({...spare, partNumber:e.target.value})}} />
-                            </div>
-
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="nickName">
-                                    <div className="w-full text-left">Nickname </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="nickName" value={spare.nickName} onChange={(e)=>{setSpare({...spare, nickName:e.target.value})}} />
-                            </div>
-
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="spec">
-                                    <div className="w-full text-left">Specification </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="spec" value={spare.spec} onChange={(e)=>{setSpare({...spare, spec:e.target.value})}} />
-                            </div>
-
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="qty">
-                                    <div className="w-full text-left">Quantity </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="qty" value={spare.qty} onChange={(e)=>{setSpare({...spare, qty:e.target.value})}} />
-                            </div>
-
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="localQty">
-                                    <div className="w-full text-left">Local Quantity </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="number" id="localQty" value={spare.localQty} onChange={(e)=>{setSpare({...spare, localQty:e.target.value})}} />
-                            </div>
-
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="localVendor">
-                                    <div className="w-full text-left">Local Vendor </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="localVendor" value={spare.localVendor} onChange={(e)=>{setSpare({...spare, localVendor:e.target.value})}} />
-                            </div>
-                            
-                        </div>
-
-                        <div className="py-4 px-4 bg-blue-300 flex flex-col items-center justify-center space-y-2 rounded-2xl w-full">
-                            
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="unit">
-                                    <div className="w-full text-left">Unit </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="unit" value={spare.unit} onChange={(e)=>{setSpare({...spare, unit:e.target.value})}} />
-                            </div>
-
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="value">
-                                    <div className="w-full text-left">Value </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="value" value={spare.value} onChange={(e)=>{setSpare({...spare, value:e.target.value})}} />
-                            </div>
-
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="origin">
-                                    <div className="w-full text-left">Origin </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="origin" value={spare.origin} onChange={(e)=>{setSpare({...spare, origin:e.target.value})}} />
-                            </div>
-
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="machine">
-                                    <div className="w-full text-left">Machine </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="machine" value={spare.machine} onChange={(e)=>{setSpare({...spare, machine:e.target.value})}} />
-                            </div>
-
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="remarks">
-                                    <div className="w-full text-left">Remarks </div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="text" id="remarks" value={spare.remarks} onChange={(e)=>{setSpare({...spare, remarks:e.target.value})}} />
-                            </div>
-
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="life">
-                                    <div className="w-full text-left">Life (in days)</div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="number" id="life" value={spare.life} onChange={(e)=>{setSpare({...spare, life:e.target.value})}} />
-                            </div>
-
-                            <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                <label htmlFor="minStock">
-                                    <div className="w-full text-left">Minimum Stock</div>
-                                </label>
-                                <input className="pl-3 focus:outline-none h-8 w-full rounded-xl" type="number" id="minStock" value={spare.minStock} onChange={(e)=>{setSpare({...spare, minStock:e.target.value})}} />
-                            </div>
+                            {fieldHeadings.map((heading,index)=>
+                                !(fieldKeys[index].split(":")[0] in notInclude)&&
+                                    (<div key={index} className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
+                                        <label htmlFor="code">
+                                            <div className="w-full text-left">{heading}</div>
+                                        </label>
+                                        <input 
+                                            className="pl-3 focus:outline-none h-8 w-full rounded-xl" 
+                                            type={fieldKeys[index].split(":")[1]} 
+                                            id={index} 
+                                            value={spare[fieldKeys[index].split(":")[0]]} 
+                                            onChange={(e)=>{setSpare({...spare, code:e.target.value})}} 
+                                        />
+                                    </div>)
+                            )}
 
                             <div className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
                                 <label>

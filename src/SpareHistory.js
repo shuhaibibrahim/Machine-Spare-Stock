@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 // import historyData from './DummyData'
 import { ref, onValue, remove } from "firebase/database";
 import { db } from "./firebase_config";
+import {fieldHeadings, fieldKeys} from "./Requirements"
 
 function SpareHistory() {
     // const location = useLocation()
@@ -43,13 +44,37 @@ function SpareHistory() {
             // // var spareRef=[]
             if(spareId===undefined)
             {
+                // for(var key in data)
+                // {
+                //     // historyArray.push(data[key])
+                //     console.log("mydata : ",data[key])
+                //     var spareItem=data[key]
+                //     for(var id in spareItem)
+                //     {
+                        
+                //         historyArray.push({
+                //             ...spareItem[id],
+                //             historyId:id,
+                //             selected:false
+                //         })
+                //     }
+                // }
                 for(var key in data)
                 {
-                    // historyArray.push(data[key])
-                    console.log("mydata : ",data[key])
                     var spareItem=data[key]
+                    
                     for(var id in spareItem)
                     {
+                        var qty=spareItem[id].qty||0
+                        var localQty=spareItem[id].localQty||0
+                        var servQty=spareItem[id].servQty||0
+            
+                        var ogValue=spareItem[id].value||0
+                        var localValue=spareItem[id].localValue||0
+            
+                        spareItem[id]["totalQty"]=(parseFloat(qty)+parseFloat(localQty)+parseFloat(servQty)).toPrecision(4)
+                        spareItem[id]["totalValue"]=(parseFloat(qty)*parseFloat(ogValue)+parseFloat(localQty)*parseFloat(localValue)).toPrecision(10)
+
                         historyArray.push({
                             ...spareItem[id],
                             historyId:id,
@@ -62,8 +87,19 @@ function SpareHistory() {
             {
                 for(var key in data)
                 {
+                    var spareItem=data[key]
+                    var qty=spareItem.qty||0
+                    var localQty=spareItem.localQty||0
+                    var servQty=spareItem.servQty||0
+        
+                    var ogValue=spareItem.value||0
+                    var localValue=spareItem.localValue||0
+        
+                    spareItem["totalQty"]=(parseFloat(qty)+parseFloat(localQty)+parseFloat(servQty)).toPrecision(4)
+                    spareItem["totalValue"]=(parseFloat(qty)*parseFloat(ogValue)+parseFloat(localQty)*parseFloat(localValue)).toPrecision(10)
+
                     historyArray.push({
-                        ...data[key],
+                        ...spareItem,
                         historyId:key
                     })
                 }
@@ -107,149 +143,16 @@ function SpareHistory() {
 
                     <div className="w-full h-lg px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
                         <div className="mr-3 overflow-y-scroll flex flex-col space-y-4 items-start w-8/12">
-                            <div className="w-full grid grid-cols-2">
+                            {fieldHeadings.map((heading,index)=>(
+                                <div className="w-full grid grid-cols-2">
                                 <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>CODE</span> 
+                                    <span>{heading}</span> 
                                     <span>:</span>
                                 </div>
                                 {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.code}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>PART NAME</span> 
-                                    <span>:</span>
+                                <div className="text-left font-semibold">{item[fieldKeys[index].split(":")[0]]}</div>
                                 </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.partName}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>MACHINE</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.machine}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>PART NUMBER</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.partNumber}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>NICKNAME</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.nickName}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>SPECIFICATION</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.spec}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>VALUE (INR)</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.value}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>TOTAL VALUE</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{parseInt(item.value)*parseInt(item.qty)}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>ORIGIN</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.origin}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>REMARKS</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.remarks}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>QUANTITY</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.qty}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>LOCAL QUANTITY</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.localQty}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>UNIT</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.unit}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>LOCAL VENDOR</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.localVendor}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>LIFE (in days)</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.life}</div>
-                            </div>
-
-                            <div className="w-full grid grid-cols-2">
-                                <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                    <span>MINIMUM STOCK</span> 
-                                    <span>:</span>
-                                </div>
-                                {/* <div className="text-center font-bold">:</div> */}
-                                <div className="text-left font-semibold">{item.minStock}</div>
-                            </div>
+                            ))}
 
                         </div>
                         <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
