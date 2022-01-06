@@ -27,6 +27,7 @@ function SpareView() {
     const [filterText, setFilterText] = useState("")
     const [filterItems, setFilterItems] = useState({})
     const [filterDisp, setFilterDisp] = useState([])
+    const [filterSet, setFilterSet] = useState(null)
     // const [filterData, setFilterData] = useState([])
     // const [qty, setQty] = useState(0)
     const [loading, setLoading] = useState(true)
@@ -97,7 +98,7 @@ function SpareView() {
     }
 
     useEffect(() => {
-        console.log(fieldHeadings)
+        // console.log(fieldHeadings)
         const spareRef = ref(db, 'spares/');
 
         onValue(spareRef, (snapshot) => {
@@ -118,10 +119,20 @@ function SpareView() {
                 item["totalValue"]=(parseFloat(qty)*parseFloat(ogValue)+parseFloat(localQty)*parseFloat(localValue)).toPrecision(10)
                 spareArray.push(item)
             }
+            const mySet=new Set();
+            spareArray.forEach(item=>{
+                mySet.add(item["code"])
+            })
+            var newFilterSet=[]
+            mySet.forEach(item=>{
+                newFilterSet.push(item)
+            })
+            setFilterSet(newFilterSet);
 
             setDispData(spareArray)
             setSpareData(spareArray);
             setLoading(false);
+
         });
     }, [])
 
@@ -133,7 +144,7 @@ function SpareView() {
     }
 
     const RenderModal=(mindex)=>{
-        console.log(dispData[mindex])
+        // console.log(dispData[mindex])
 
         setModal(
             <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">
@@ -178,7 +189,7 @@ function SpareView() {
             rowclass+="bg-yellow-300 rounded-xl bg-opacity-90 "
         else if(totalQty=="0")
         {
-            console.log("red",item)
+            // console.log("red",item)
             rowclass+="bg-red-300 rounded-xl bg-opacity-90 "
             // console.log(rowclass)
         }
@@ -270,6 +281,7 @@ function SpareView() {
         // })
         var newData=[...dispData] //spareData so that filtering starts from the original data
         var count=0;
+        // console.log("newdata : ",newData)
         for(var key in filterItems){
             var searchText=filterItems[key]
             count+=searchText.length
@@ -279,13 +291,13 @@ function SpareView() {
                 newData.forEach(item=>{
                     if(item[key].toLowerCase().includes(searchText.toLowerCase()))
                     {
-                        console.log("key : ",key,"search : ",searchText)
+                        // console.log("key : ",key,"search : ",searchText)
                         items.push(item)
                     }
                 })
                 newData=[...items]
             }
-            console.log("filterdata : ",newData)
+            // console.log("filterdata : ",newData)
         }
         // console.log("newData : ",newData)
         if(count>0)
@@ -370,7 +382,18 @@ function SpareView() {
                         </div>
                         <select 
                             className="bg-green-300 text-white font-bold p-2 outline-none" 
-                            onChange={e=>{setFilter(e.target.value)}}
+                            onChange={e=>{
+                                setFilter(e.target.value)
+                                const mySet=new Set();
+                                spareData.forEach(item=>{
+                                    mySet.add(item[e.target.value])
+                                })
+                                var newFilterSet=[]
+                                mySet.forEach(item=>{
+                                    newFilterSet.push(item)
+                                })
+                                setFilterSet(newFilterSet);
+                            }}
                         >
                             <option value="code" className="bg-green-600 p-3 font-bold">Code</option>
                             <option value="partName" className="bg-green-600 p-3 font-bold">Part Name</option>
@@ -399,13 +422,22 @@ function SpareView() {
 
                     <div className="flex flex-row absolute ml-28">
                         <div className="bg-black text-md font-bold text-white px-3 p-1 rounded-l-3xl">{filter}</div>
-                        <input 
+                        {/* <input 
                             value={filterText} 
                             onChange={e=>{setFilterText(e.target.value)}} 
                             type="text" 
                             className="rounded-r-3xl p-1 pl-2 focus:outline-none w-40" 
                             placeholder="Search"
-                        />
+                        /> */}
+                        <select 
+                            className="text-black bg-white w-36 font-bold px-3 p-2 outline-none rounded-r-3xl" 
+                            onChange={e=>{setFilterText(e.target.value)}}
+                        >
+                            <option value="" className="text-black p-3 font-bold">NIL</option>
+                            {filterSet&&filterSet&&filterSet.map(item=>(
+                                <option value={item} className="text-black p-3 font-bold">{item}</option>
+                            ))}
+                        </select>
 
                         <div 
                             className="ml-2 text-md font-bold bg-red-600 hover:bg-red-500 text-white px-3 p-1 rounded-2xl"
