@@ -165,42 +165,6 @@ function SpareView() {
         )
     }
 
-    useEffect(() => {
-        console.log("came here")
-        if(search==="")
-        {
-            var items=[...filterData]
-            setDispData([...filterData])
-            setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
-        }
-        else
-        {
-            const keys=["code","partName", "machine", "partNumber", "nickName", "spec", "origin"]
-            var items=filterData.filter((item,index)=>{
-                // 
-                var found=0;
-                keys.forEach(key=>{
-                    if(item[key].toLowerCase().includes(search.toLocaleLowerCase()))
-                    {
-                        
-                        found=1;
-                    }
-                })
-                return found===1
-            })
-
-            setDispData([...items])
-            if(items.length>0)
-                setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
-            else
-                setRenderItems(        
-                    <div className="flex items-center justify-center w-full h-full">
-                        <div className="text-blue-300 text-5xl">Nothing here !</div>
-                    </div>
-                )
-        }
-    }, [search, filterData])
-
     const RenderItem=({item, index})=>{
         var rowclass=" w-10/12 p-2 grid grid-cols-8 "
         var totalQty=parseInt(item.totalQty)
@@ -326,6 +290,41 @@ function SpareView() {
         else
             setFilterData([...spareData])
     }, [filterItems])
+
+    useEffect(() => {
+        if(search==="")
+        {
+            var items=[...filterData]
+            setDispData([...filterData])
+            setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
+        }
+        else
+        {
+            const keys=["code","partName", "machine", "partNumber", "nickName", "spec", "origin"]
+            var items=filterData.filter((item,index)=>{
+                // 
+                var found=0;
+                keys.forEach(key=>{
+                    if(item[key].toLowerCase().includes(search.toLocaleLowerCase()))
+                    {
+                        
+                        found=1;
+                    }
+                })
+                return found===1
+            })
+
+            setDispData([...items])
+            if(items.length>0)
+                setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
+            else
+                setRenderItems(        
+                    <div className="flex items-center justify-center w-full h-full">
+                        <div className="text-blue-300 text-5xl">Nothing here !</div>
+                    </div>
+                )
+        }
+    }, [search, filterData])
 
     return (
         <div className="h-full">
