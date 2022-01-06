@@ -132,7 +132,8 @@ function SpareView() {
     }
 
     const RenderModal=(mindex)=>{
-        dispData[mindex]&&setModal(
+        if(dispData[mindex]!=undefined)
+        setModal(
             <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">
                 <div className="flex flex-row justify-end px-8 pt-3 ">
                     <svg onClick={()=>{setModal(null)}} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -209,7 +210,7 @@ function SpareView() {
 
                 <div className="flex items-center justify-center">
                     <div 
-                        className="font-semibold bg-blue-600 p-3 rounded-3xl w-10/12 break-all text-white hover:bg-blue-800"
+                        className="font-semibold bg-blue-600 p-3 cursor-pointer rounded-3xl w-10/12 break-all text-white hover:bg-blue-800"
                         onClick={()=>{
                             setModalIndex(index)
                             RenderModal(index)
@@ -219,7 +220,7 @@ function SpareView() {
 
                 <div className="flex items-center justify-center">
                     <div 
-                        className="font-semibold bg-green-600 p-3 rounded-3xl w-10/12 break-all text-white hover:bg-green-800"
+                        className="font-semibold cursor-pointer bg-green-600 p-3 rounded-3xl w-10/12 break-all text-white hover:bg-green-800"
                         onClick={()=>{
                             history.push({
                                 pathname: "/sparehistory",
@@ -286,9 +287,15 @@ function SpareView() {
         }
         // console.log("newData : ",newData)
         if(count>0)
+        {
+            setDispData([...newData])
             setFilterData([...newData])
+        }
         else
+        {
+            setDispData([...spareData])
             setFilterData([...spareData])
+        }
     }, [filterItems])
 
     useEffect(() => {
