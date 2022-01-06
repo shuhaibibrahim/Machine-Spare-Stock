@@ -440,7 +440,7 @@ function SpareView() {
                         </select>
 
                         <div 
-                            className="ml-2 text-md font-bold bg-red-600 hover:bg-red-500 text-white px-3 p-1 rounded-2xl"
+                            className="ml-2 cursor-pointer text-md font-bold bg-red-600 hover:bg-red-500 text-white px-3 p-1 rounded-2xl"
                             onClick={()=>{
                                 var items={...filterItems}
                                 // if(items[filter]===undefined)
