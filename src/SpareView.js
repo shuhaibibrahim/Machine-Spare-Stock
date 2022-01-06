@@ -448,7 +448,6 @@ function SpareView() {
                                 // items[filter].push(filterText)
                                 items[filter]=filterText
                                 setFilterItems(items)
-                                setFilterText("")
                             }}
                         >
                             Add
