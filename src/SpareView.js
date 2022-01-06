@@ -27,7 +27,7 @@ function SpareView() {
     const [filterText, setFilterText] = useState("")
     const [filterItems, setFilterItems] = useState({})
     const [filterDisp, setFilterDisp] = useState([])
-    const [filterData, setFilterData] = useState([])
+    // const [filterData, setFilterData] = useState([])
     // const [qty, setQty] = useState(0)
     const [loading, setLoading] = useState(true)
 
@@ -119,11 +119,12 @@ function SpareView() {
                 spareArray.push(item)
             }
 
+            setDispData(spareArray)
             setSpareData(spareArray);
-            setFilterData(spareArray)
             setLoading(false);
         });
     }, [])
+
 
     const backdropClickHandler = (event) => {
         if (event.target === event.currentTarget) {
@@ -132,7 +133,8 @@ function SpareView() {
     }
 
     const RenderModal=(mindex)=>{
-        if(dispData[mindex]!=undefined)
+        console.log(dispData[mindex])
+
         setModal(
             <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">
                 <div className="flex flex-row justify-end px-8 pt-3 ">
@@ -266,7 +268,7 @@ function SpareView() {
         //     })
         //     newData=[...items]
         // })
-        var newData=[...spareData] //spareData so that filtering starts from the original data
+        var newData=[...dispData] //spareData so that filtering starts from the original data
         var count=0;
         for(var key in filterItems){
             var searchText=filterItems[key]
@@ -289,26 +291,23 @@ function SpareView() {
         if(count>0)
         {
             setDispData([...newData])
-            setFilterData([...newData])
         }
         else
         {
             setDispData([...spareData])
-            setFilterData([...spareData])
         }
-    }, [filterItems])
+    }, [filterItems, spareData])
 
     useEffect(() => {
         if(search==="")
         {
-            var items=[...filterData]
-            setDispData([...filterData])
+            var items=[...dispData]
             setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
         }
         else
         {
             const keys=["code","partName", "machine", "partNumber", "nickName", "spec", "origin"]
-            var items=filterData.filter((item,index)=>{
+            var items=dispData.filter((item,index)=>{
                 // 
                 var found=0;
                 keys.forEach(key=>{
@@ -331,7 +330,7 @@ function SpareView() {
                     </div>
                 )
         }
-    }, [search, filterData])
+    }, [search, dispData])
 
     return (
         <div className="h-full">
