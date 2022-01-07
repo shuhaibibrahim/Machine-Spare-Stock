@@ -293,11 +293,33 @@ function SpareView() {
         {
             setDispData([...newData])
             dispItems=[...newData]
+
+            const mySet=new Set();
+            newData.forEach(item=>{
+                mySet.add(item[filter])
+            })
+            var newFilterSet=[]
+            mySet.forEach(item=>{
+                newFilterSet.push(item)
+            })
+            setFilterSet(newFilterSet.sort());
+
         }
         else
         {
             dispItems=[...spareData]
             setDispData([...spareData])
+
+            const mySet=new Set();
+            spareData.forEach(item=>{
+                mySet.add(item[filter])
+            })
+            var newFilterSet=[]
+            mySet.forEach(item=>{
+                newFilterSet.push(item)
+            })
+            setFilterSet(newFilterSet.sort());
+
         }
         return dispItems
     }
