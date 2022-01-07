@@ -124,7 +124,7 @@ function SpareView() {
             mySet.forEach(item=>{
                 newFilterSet.push(item)
             })
-            setFilterSet(newFilterSet);
+            setFilterSet(newFilterSet.sort());
 
             setDispData(spareArray)
             setSpareData(spareArray);
@@ -392,14 +392,14 @@ function SpareView() {
                             onChange={e=>{
                                 setFilter(e.target.value)
                                 const mySet=new Set();
-                                spareData.forEach(item=>{
+                                dispData.forEach(item=>{
                                     mySet.add(item[e.target.value])
                                 })
                                 var newFilterSet=[]
                                 mySet.forEach(item=>{
                                     newFilterSet.push(item)
                                 })
-                                setFilterSet(newFilterSet);
+                                setFilterSet(newFilterSet.sort());
                             }}
                         >
                             <option value="code" className="bg-green-600 p-3 font-bold">Code</option>
