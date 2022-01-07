@@ -6,7 +6,6 @@ const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 function DownloadExcel({spareData}) {
-    console.log(spareData)
     return (
         <ExcelFile>
             <ExcelSheet data={spareData} name="Employees">

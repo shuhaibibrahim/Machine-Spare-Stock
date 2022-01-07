@@ -90,7 +90,6 @@ function AdminDelete() {
     
     const deleteSpare=(item)=>{
         var choice=window.confirm("Do you really want to delete this spare ?")
-        console.log("choice=",choice)
         if(choice===true)
         {
 
@@ -120,7 +119,6 @@ function AdminDelete() {
     }
 
     const RenderItem=({item, index})=>{
-        // console.log("iten : ",item)
         return (
             <div key={index} className="w-10/12 p-2 grid grid-cols-8">
                 <div className="flex items-center justify-center">
@@ -178,7 +176,6 @@ function AdminDelete() {
 
         onValue(spareRef, (snapshot) => {
             const data = snapshot.val();
-            // console.log("data : ",data);
 
             var spareArray=[];
             for(var key in data)
@@ -196,7 +193,6 @@ function AdminDelete() {
                 spareArray.push(item)
             }
 
-            console.log("event called")
             setSpareData(spareArray);
             setLoading(false);
         });
@@ -213,19 +209,16 @@ function AdminDelete() {
         {
             const keys=["code","partName", "machine", "partNumber", "nickName", "spec", "origin"]
             var items=spareData.filter((item,index)=>{
-                // console.log(item,"keys : ", keys)
                 var found=0;
                 keys.forEach(key=>{
                     if(item[key].includes(search))
                     {
-                        // console.log("item[key] : ",item[key], item[key].includes(search))
                         found=1;
                     }
                 })
                 return found===1
             })
 
-            // console.log(items)
             if(items.length>0)
                 setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
             else

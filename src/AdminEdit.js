@@ -39,7 +39,6 @@ function AdminEdit() {
 
         onValue(spareRef, (snapshot) => {
             const data = snapshot.val();
-            console.log("data : ",data);
 
             var spareArray=[];
             
@@ -79,7 +78,6 @@ function AdminEdit() {
     }
 
     const pushToDatabase = (item) => {
-        // console.log(user);const db = getDatabase();
             setUpdateLoad(true)
 
             const spareRef = ref(db, `spares/${item.id}`);
@@ -94,11 +92,9 @@ function AdminEdit() {
             {
                 uploadBytes(storageRef, imageFile)
                 .then((snapshot) => {
-                    console.log('Uploaded a blob or file!', snapshot);
     
                     getDownloadURL(sref(storage, `spares/${item.id}`))
                     .then((url) => {
-                        console.log(url)
                         // setSpare({...spare, image:url, id:newSpareRef.key})
     
                         set(spareRef, {
@@ -107,7 +103,6 @@ function AdminEdit() {
                         })
                         .then((ref)=>{
                             var currentDate=new Date().toLocaleString('en-GB')
-                            // console.log(currentDate)
                             //pushing histoty
                             set(newHistoryRef, {
                                 // spareId: item.id,
@@ -124,7 +119,6 @@ function AdminEdit() {
                             .catch((error)=>{
                                 alert("Error while saving data : ",error)
                             })
-                            console.log(ref)
 
                         })
                         .catch((error)=>{
@@ -132,12 +126,10 @@ function AdminEdit() {
                         })
                     })
                     .catch((error) => {
-                        console.log("error here : ",error)
                     });
                 })
                 .catch(error=>{
                     alert("Couldnt save data!");
-                    console.log(error)
                     return;
                 })
             }
@@ -148,7 +140,6 @@ function AdminEdit() {
                 })
                 .then((ref)=>{
                     var currentDate=new Date().toLocaleString()
-                    // console.log(currentDate)
                     //pushing histoty
                     set(newHistoryRef, {
                         // spareId: item.id,
@@ -319,19 +310,16 @@ function AdminEdit() {
         {
             const keys=["code","partName", "machine", "partNumber", "nickName", "spec", "origin"]
             var items=spareData.filter((item,index)=>{
-                // console.log(item,"keys : ", keys)
                 var found=0;
                 keys.forEach(key=>{
                     if(item[key].toLowerCase().includes(search.toLowerCase()))
                     {
-                        console.log("item[key] : ",item[key], item[key].toLowerCase().includes(search.toLowerCase()))
                         found=1;
                     }
                 })
                 return found===1
             })
 
-            console.log(items)
             setDispData([...items])
             if(items.length>0)
                 setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))

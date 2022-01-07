@@ -19,7 +19,6 @@ function UserLogin() {
     const signup = () => {
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCred)=>{
-            // console.log(user)
             const userRef = ref(db, `users/${userCred.user.uid}`);
             set(userRef, {
                 admin:false,

@@ -32,7 +32,6 @@ function AdminAdd() {
     })
 
     const pushToDatabase = () => {
-        // console.log(user);const db = getDatabase();
             setUpdateLoad(true)
 
             const spareRef = ref(db, `spares/`);
@@ -42,11 +41,9 @@ function AdminAdd() {
 
             uploadBytes(storageRef, imageFile)
             .then((snapshot) => {
-                console.log('Uploaded a blob or file!', snapshot);
 
                 getDownloadURL(sref(storage, `spares/${newSpareRef.key}`))
                 .then((url) => {
-                    console.log(url)
                     // setSpare({...spare, image:url, id:newSpareRef.key})
 
                     set(newSpareRef, {
@@ -57,7 +54,6 @@ function AdminAdd() {
                     .then((ref)=>{
                         setUpdateLoad(false)
                         alert("Successfully updated")
-                        console.log(ref)
         
                         setSpare({
                             code:"",
@@ -84,12 +80,10 @@ function AdminAdd() {
                     })
                 })
                 .catch((error) => {
-                    console.log("error here : ",error)
                 });
             })
             .catch(error=>{
                 alert("Couldnt save data!");
-                console.log(error)
                 return;
             })
     }
@@ -102,7 +96,6 @@ function AdminAdd() {
 
     const RenderModal = (e) => {
         e.preventDefault()
-        console.log(spare)
         setModal(
             <div onClick={backdropClickHandler} className="bg-white z-20 bg-opacity-95 fixed inset-0 flex justify-center items-center">
                 <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">

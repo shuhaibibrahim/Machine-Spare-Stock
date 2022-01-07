@@ -52,9 +52,7 @@ function SpareView() {
 
             item["totalQty"]=parseInt(qty)+parseInt(localQty)+parseInt(servQty)
             item["totalValue"]=(parseFloat(qty)*parseFloat(ogValue)+parseFloat(localQty)*parseFloat(localValue)).toPrecision(10)
-            
-            // console.log("item : ",item)
-            
+             
             var data={}
             fieldKeys.forEach(key=>{
                 var mykey=key.split(":")[0]
@@ -98,7 +96,6 @@ function SpareView() {
     }
 
     useEffect(() => {
-        // console.log(fieldHeadings)
         const spareRef = ref(db, 'spares/');
 
         onValue(spareRef, (snapshot) => {
@@ -144,8 +141,6 @@ function SpareView() {
     }
 
     const RenderModal=(mindex)=>{
-        // console.log(dispData[mindex])
-
         setModal(
             <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">
                 <div className="flex flex-row justify-end px-8 pt-3 ">
@@ -184,14 +179,11 @@ function SpareView() {
         var totalQty=parseInt(item.totalQty)
         var minStock=parseInt(item.minStock)
 
-        // console.log(item.code," : ","qty : ",qty,"minstock:",minStock, " : ",qty-minStock,qty<minStock)
         if(totalQty<minStock && totalQty!="0")
             rowclass+="bg-yellow-300 rounded-xl bg-opacity-90 "
         else if(minStock>0 && totalQty=="0")
         {
-            // console.log("red",item)
             rowclass+="bg-red-300 rounded-xl bg-opacity-90 "
-            // console.log(rowclass)
         }
 
         return (
@@ -265,7 +257,6 @@ function SpareView() {
         //     keys.push(key)
         // var newData=[...filterData]
 
-        // console.log(keys)
         // var count=0;
         // keys.forEach(key=>{
         //     var filters=[...filterItems[key]]
@@ -291,7 +282,6 @@ function SpareView() {
                 newData.forEach(item=>{
                     if(item[key].toLowerCase().includes(searchText.toLowerCase()))
                     {
-                        // console.log("key : ",key,"search : ",searchText)
                         items.push(item)
                     }
                 })
@@ -303,7 +293,6 @@ function SpareView() {
         {
             setDispData([...newData])
             dispItems=[...newData]
-            console.log("newData : ",newData)
         }
         else
         {
@@ -321,7 +310,6 @@ function SpareView() {
 
         if(search==="")
         {
-            console.log("dispitems : ",dispItems)
             var items=[...dispItems]
             setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
         }

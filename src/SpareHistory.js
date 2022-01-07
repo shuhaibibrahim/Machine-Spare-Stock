@@ -11,9 +11,9 @@ function SpareHistory() {
     const location = useLocation()
 
     const { spareId } = location.state || {undefined}
-    console.log("state : ", spareId)
 
     const [historyData, setHistoryData] = useState([])
+    const [dispData, setDispData] = useState([]) //data displayed
     const [Modal, setModal] = useState(<div/>)
     const [search, setSearch] = useState("")
     const [renderItems, setRenderItems] = useState(
@@ -38,8 +38,7 @@ function SpareHistory() {
 
         onValue(historyRef, (snapshot) => {
             const data = snapshot.val();
-            console.log("data : ",data);
-
+           
             var historyArray=[];
             // // var spareRef=[]
             if(spareId===undefined)
@@ -47,7 +46,6 @@ function SpareHistory() {
                 // for(var key in data)
                 // {
                 //     // historyArray.push(data[key])
-                //     console.log("mydata : ",data[key])
                 //     var spareItem=data[key]
                 //     for(var id in spareItem)
                 //     {
@@ -107,7 +105,6 @@ function SpareHistory() {
 
             if(historyArray[0]!==undefined)
             {
-                console.log("historyarray : ",historyArray);
                 historyArray.sort((a,b)=> {
                     if(a!==undefined)
                         return a.date < b.date ? 1 : -1
@@ -120,6 +117,7 @@ function SpareHistory() {
             setMinDate(minD)
             setMaxDate(maxD)
 
+            setDispData(historyArray)
             setHistoryData(historyArray);
             setLoading(false);
         });
@@ -190,25 +188,25 @@ function SpareHistory() {
 
     useEffect(() => {
         if(search==="")
+        {
+            setDispData(historyData)
             setRenderItems(historyData.map((item, index)=><RenderItem item={item} index={index}/>))
+        }
         else
         {
             const keys=["code","partName", "machine", "partNumber", "nickName", "spec", "origin"]
-            console.log("historyData : ",historyData)
             var items=historyData.filter((item,index)=>{
-                // console.log(item,"keys : ", keys)
                 var found=0;
                 keys.forEach(key=>{
                     if(item[key] && item[key].includes(search))
                     {
-                        console.log("item[key] : ",item[key])
                         found=1;
                     }
                 })
                 return found===1
             })
 
-            // console.log(items)
+            setDispData(items)
             if(items.length>0)
                 setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
             else
@@ -219,6 +217,10 @@ function SpareHistory() {
                 )
         }
     }, [search, historyData])
+
+    useEffect(() => {
+        setRenderItems(dispData.map((item, index)=><RenderItem item={item} index={index}/>))
+    }, [dispData])
 
     const RenderItem=({item, index})=>{
         return (
@@ -298,10 +300,11 @@ function SpareHistory() {
                             type="checkbox"
                             value={item.selected}
                             checked={item.selected}
-                            onClick={e=>{
-                                var historyArray=[...historyData]
+                            onChange={e=>{
+                                var historyArray=[...dispData]
+                                console.log(historyArray)
                                 historyArray[index].selected=!historyArray[index].selected
-                                setHistoryData([...historyArray])
+                                setDispData([...historyArray])
                             }}
                         />
                     </div>
@@ -312,18 +315,15 @@ function SpareHistory() {
 
     const selectHistory=()=>{
         
-        if(historyData.length!=0 && (from!=null || to!=null))
+        if(dispData.length!=0 && (from!=null || to!=null))
         {
-            var historyArray=[...historyData]
-            console.log("array here = ",historyData)
+            var historyArray=[...dispData]
     
             historyArray=historyArray.map(item=>{
                 var itemDate=item.date.split(',')[0]
                 
                 var fromDate=from||minDate
                 var toDate=to||maxDate
-    
-                console.log(itemDate,"<=",toDate,itemDate>=toDate)
     
                 if(itemDate>=fromDate && itemDate<=toDate)
                 {
@@ -336,8 +336,7 @@ function SpareHistory() {
                 return item;
             })
     
-            console.log("newarray",historyArray)
-            setHistoryData(historyArray)
+            setDispData(historyArray)
         }
 
     }
@@ -348,7 +347,7 @@ function SpareHistory() {
         // if(spareId===undefined)
         // {
         var selected=false
-        historyData.forEach(item=>{
+        dispData.forEach(item=>{
             if(item.selected===true)
             {
                 if(selected===false)
