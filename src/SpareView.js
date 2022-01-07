@@ -185,9 +185,9 @@ function SpareView() {
         var minStock=parseInt(item.minStock)
 
         // console.log(item.code," : ","qty : ",qty,"minstock:",minStock, " : ",qty-minStock,qty<minStock)
-        if(totalQty<minStock)
+        if(totalQty<minStock && totalQty!="0")
             rowclass+="bg-yellow-300 rounded-xl bg-opacity-90 "
-        else if(totalQty=="0")
+        else if(minStock>0 && totalQty=="0")
         {
             // console.log("red",item)
             rowclass+="bg-red-300 rounded-xl bg-opacity-90 "
@@ -246,7 +246,7 @@ function SpareView() {
         )
     }
 
-    useEffect(() => {
+    const filterFunc=(dispItems)=>{
         var filters=[]
         // for(var key in filterItems){
         //     filterItems[key].map(item=>{
@@ -279,9 +279,9 @@ function SpareView() {
         //     })
         //     newData=[...items]
         // })
-        var newData=[...dispData] //spareData so that filtering starts from the original data
+        var newData=[...dispItems] //spareData so that filtering starts from the original data
         var count=0;
-        // console.log("newdata : ",newData)
+
         for(var key in filterItems){
             var searchText=filterItems[key]
             count+=searchText.length
@@ -297,29 +297,38 @@ function SpareView() {
                 })
                 newData=[...items]
             }
-            // console.log("filterdata : ",newData)
         }
-        // console.log("newData : ",newData)
+
         if(count>0)
         {
             setDispData([...newData])
+            dispItems=[...newData]
+            console.log("newData : ",newData)
         }
         else
         {
+            dispItems=[...spareData]
             setDispData([...spareData])
         }
-    }, [filterItems, spareData])
+        return dispItems
+    }
 
-    useEffect(() => {
+    const filterSearch=()=>{
+
+        //applying filter items
+        var dispItems=[...spareData]
+        dispItems=[...filterFunc(dispItems)] //arrays are passed by reference
+
         if(search==="")
         {
-            var items=[...dispData]
+            console.log("dispitems : ",dispItems)
+            var items=[...dispItems]
             setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
         }
         else
         {
             const keys=["code","partName", "machine", "partNumber", "nickName", "spec", "origin"]
-            var items=dispData.filter((item,index)=>{
+            var items=dispItems.filter((item,index)=>{
                 // 
                 var found=0;
                 keys.forEach(key=>{
@@ -334,7 +343,9 @@ function SpareView() {
 
             setDispData([...items])
             if(items.length>0)
+            {
                 setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
+            }
             else
                 setRenderItems(        
                     <div className="flex items-center justify-center w-full h-full">
@@ -342,7 +353,15 @@ function SpareView() {
                     </div>
                 )
         }
-    }, [search, dispData])
+    }
+
+    useEffect(() => {
+        filterSearch();
+    }, [search, spareData])
+    
+    useEffect(() => {
+        filterSearch();
+    }, [filterItems])
 
     return (
         <div className="h-full">

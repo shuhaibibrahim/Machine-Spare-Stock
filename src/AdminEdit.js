@@ -9,10 +9,12 @@ function AdminEdit() {
     // const {spareData}=location.state
 
     const [spareData, setSpareData] = useState([])
-    
+    const [dispData, setDispData] = useState([]) //data displayed
+
     const [modalToggle, setModalToggle] = useState(false)
-    const [Modal, setModal] = useState(<div/>)
+    const [Modal, setModal] = useState(null)
     const [modalItem, setModalItem] = useState({})
+    const [modalIndex, setModalIndex] = useState(0)
 
     const [updateLoad, setUpdateLoad] = useState(false)
 
@@ -56,15 +58,22 @@ function AdminEdit() {
                 spareArray.push(item)
             }
 
+            setDispData(spareArray)
             setSpareData(spareArray);
             setLoading(false);
         });
     }, [])
 
 
+    // const backdropClickHandler = (event) => {
+    //     if (event.target === event.currentTarget) {
+    //         setModalToggle(false)
+    //         setImageFile("")
+    //     }
+    // }
     const backdropClickHandler = (event) => {
         if (event.target === event.currentTarget) {
-            setModalToggle(false)
+            setModal(null)
             setImageFile("")
         }
     }
@@ -109,7 +118,7 @@ function AdminEdit() {
                             })
                             .then(()=>{
                                 setUpdateLoad(false)
-                                setModal(<div/>)
+                                setModal(null)
                                 alert("Successfully updated")
                             })
                             .catch((error)=>{
@@ -150,7 +159,7 @@ function AdminEdit() {
                     })
                     .then(()=>{
                         setUpdateLoad(false)
-                        setModal(<div/>)
+                        setModal(null)
                         alert("Successfully updated")
                     })
                     .catch((error)=>{
@@ -164,138 +173,136 @@ function AdminEdit() {
             }
     }
 
-    const RenderModal=(item)=>{
+    const RenderModal=(mindex)=>{
         setModal(
-            <div onClick={backdropClickHandler} className="bg-white z-20 bg-opacity-95 fixed inset-0 flex justify-center items-center">
-                <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">
-                    <div className="flex flex-row justify-end px-8 pt-3 ">
-                        <svg onClick={()=>{setModalToggle(false)}} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
+            <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">
+                <div className="flex flex-row justify-end px-8 pt-3 ">
+                    <svg onClick={()=>{setModal(null); setImageFile("")}} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
 
-                    <div className="w-full h-lg px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
-                        <div className="mr-3 overflow-y-scroll flex flex-col space-y-4 items-start w-8/12">
-                            
-                            {fieldHeadings.map((heading,index)=>
-                                !(fieldKeys[index].split(":")[0] in notInclude)&&
-                                (
-                                <div key={index} className="w-full grid grid-cols-2">
-                                    <div className="text-left font-bold flex flex-row justify-between mr-3">
-                                        <span>{heading}</span> 
-                                        <span>:</span>
-                                    </div>
-                                    {/* <div className="text-center font-bold">:</div> */}
-                                    <input 
-                                        type={fieldKeys[index].split(":")[1]} 
-                                        id={index} 
-                                        value={modalItem[fieldKeys[index].split(":")[0]]}
-                                        onChange={(e)=>{setModalItem(
-                                                {
-                                                    ...modalItem,
-                                                    [fieldKeys[index].split(":")[0]]:e.target.value
-                                                }
-                                            )
-                                        }}
-                                        className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                                    />
+                <div className="w-full h-lg px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
+                    <div className="mr-3 overflow-y-scroll flex flex-col space-y-4 items-start w-8/12">
+                        
+                        {fieldHeadings.map((heading,index)=>
+                            !(fieldKeys[index].split(":")[0] in notInclude)&&
+                            (
+                            <div key={index} className="w-full grid grid-cols-2">
+                                <div className="text-left font-bold flex flex-row justify-between mr-3">
+                                    <span>{heading}</span> 
+                                    <span>:</span>
                                 </div>
-                            ))}
-
-                        </div>
-                        <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
-                            <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">
-                                {/* <img className="h-64 w-56 rounded-xl" src={modalItem.image} alt="imageq1" /> */}
-                                <img className="h-64 w-56 rounded-xl" src={imageFile?URL.createObjectURL(imageFile):modalItem.image} alt="imageq1" />
-                            </div>
-
-                            <label className="w-full">
-                                <div className="text-left w-full" >Image {imageFile?`: ${imageFile.name}`:""} </div>
-                                <div className="
-                                    w-full
-                                    flex flex-row
-                                    space-x-3
-                                    items-center
-                                    justify-center
-                                    px-3
-                                    py-7
-                                    h-8
-                                    bg-white
-                                    rounded-xl
-                                    shadow-md
-                                    tracking-wide
-                                    border border-blue
-                                    cursor-pointer
-                                    hover:bg-purple-600 hover:text-white
-                                    text-purple-600
-                                    ease-linear
-                                    transition-all
-                                    duration-150
-                                ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
-                                        <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
-                                    </svg>
-                                    <div class="text-base leading-normal uppercase flex flex-col justify-center items-center">
-                                        <span>Select a file</span>
-                                        <span>(Max 45kb)</span>
-                                    </div>
-                                    <input 
-                                        id="image" 
-                                        type="file" 
-                                        class="hidden" 
-                                        onChange={e=>{
-                                            if(e.target.files[0])
+                                {/* <div className="text-center font-bold">:</div> */}
+                                <input 
+                                    type={fieldKeys[index].split(":")[1]} 
+                                    id={index} 
+                                    value={dispData[mindex][fieldKeys[index].split(":")[0]]}
+                                    onChange={(e)=>{setModalItem(
                                             {
-                                                if(e.target.files[0].size<=46080)
-                                                {
-                                                    setImageFile(e.target.files[0])
-                                                    setModalItem(
-                                                        {
-                                                            ...modalItem,
-                                                            image:e.target.files[0]
-                                                        }
-                                                    )
-                                                }    
-                                                else    
-                                                {
-                                                    e.target.files=null
-                                                    alert("File size more than 45kb")
-                                                }
+                                                ...dispData[mindex],
+                                                [fieldKeys[index].split(":")[0]]:e.target.value
                                             }
-                                        }} 
-                                    />
-                                </div>
-                            </label>
+                                        )
+                                    }}
+                                    className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                />
+                            </div>
+                        ))}
 
-                            <button 
-                                className="p-1 w-full ring-4 ring-red-700 bg-red-600 hover:bg-red-500 rounded-2xl text-white font-semibold"
-                                onClick={e=>{pushToDatabase(modalItem)}}
-                            >
-                                    Update
-                            </button>
-                            {/* <div className="flex flex-col space-y-4 w-full">
-                                <div className="w-full text-left font-bold">Take quantity : </div>
-                                <div className="flex flex-row w-full justify-between">
-                                    <input 
-                                        id="qty"
-                                        type="number"
-                                        name="qty"
-                                        defaultValue={0}
-                                        min={0}
-                                        onChange={(e)=>{setQty(parseInt(e.target.value))}} 
-                                        // value={qty}
-                                        className="w-3/12 text-black pl-2 rounded-xl ring-4 ring-blue-900 focus:outline-none"
-                                        // className="text-black"
-                                    />
-                                    <button 
-                                        onClick={()=>{minusQuantity(item)}}
-                                        className="p-3 w-8/12 ring-4 ring-red-900 bg-red-600 hover:bg-red-800 rounded-xl text-white font-semibold"
-                                    >Update
-                                    </button>
-                                </div>
-                            </div> */}
+                    </div>
+                    <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
+                        <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">
+                            {/* <img className="h-64 w-56 rounded-xl" src={modalItem.image} alt="imageq1" /> */}
+                            <img className="h-64 w-56 rounded-xl" src={imageFile?URL.createObjectURL(imageFile):dispData[mindex].image} alt="imageq1" />
                         </div>
+
+                        <label className="w-full">
+                            <div className="text-left w-full" >Image {imageFile?`: ${imageFile.name}`:""} </div>
+                            <div className="
+                                w-full
+                                flex flex-row
+                                space-x-3
+                                items-center
+                                justify-center
+                                px-3
+                                py-7
+                                h-8
+                                bg-white
+                                rounded-xl
+                                shadow-md
+                                tracking-wide
+                                border border-blue
+                                cursor-pointer
+                                hover:bg-purple-600 hover:text-white
+                                text-purple-600
+                                ease-linear
+                                transition-all
+                                duration-150
+                            ">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
+                                    <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
+                                </svg>
+                                <div class="text-base leading-normal uppercase flex flex-col justify-center items-center">
+                                    <span>Select a file</span>
+                                    <span>(Max 45kb)</span>
+                                </div>
+                                <input 
+                                    id="image" 
+                                    type="file" 
+                                    class="hidden" 
+                                    onChange={e=>{
+                                        if(e.target.files[0])
+                                        {
+                                            if(e.target.files[0].size<=46080)
+                                            {
+                                                setImageFile(e.target.files[0])
+                                                setModalItem(
+                                                    {
+                                                        ...dispData[mindex],
+                                                        image:e.target.files[0]
+                                                    }
+                                                )
+                                            }    
+                                            else    
+                                            {
+                                                e.target.files=null
+                                                alert("File size more than 45kb")
+                                            }
+                                        }
+                                    }} 
+                                />
+                            </div>
+                        </label>
+
+                        <button 
+                            className="p-1 w-full ring-4 ring-red-700 bg-red-600 hover:bg-red-500 rounded-2xl text-white font-semibold"
+                            onClick={e=>{pushToDatabase(modalItem)}}
+                        >
+                                Update
+                        </button>
+                        {/* <div className="flex flex-col space-y-4 w-full">
+                            <div className="w-full text-left font-bold">Take quantity : </div>
+                            <div className="flex flex-row w-full justify-between">
+                                <input 
+                                    id="qty"
+                                    type="number"
+                                    name="qty"
+                                    defaultValue={0}
+                                    min={0}
+                                    onChange={(e)=>{setQty(parseInt(e.target.value))}} 
+                                    // value={qty}
+                                    className="w-3/12 text-black pl-2 rounded-xl ring-4 ring-blue-900 focus:outline-none"
+                                    // className="text-black"
+                                />
+                                <button 
+                                    onClick={()=>{minusQuantity(item)}}
+                                    className="p-3 w-8/12 ring-4 ring-red-900 bg-red-600 hover:bg-red-800 rounded-xl text-white font-semibold"
+                                >Update
+                                </button>
+                            </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
@@ -304,7 +311,10 @@ function AdminEdit() {
 
     useEffect(() => {
         if(search==="")
-            setRenderItems(spareData.map((item, index)=><RenderItem item={item} index={index}/>))
+        {
+            var items=[...spareData]
+            setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
+        }
         else
         {
             const keys=["code","partName", "machine", "partNumber", "nickName", "spec", "origin"]
@@ -312,9 +322,9 @@ function AdminEdit() {
                 // console.log(item,"keys : ", keys)
                 var found=0;
                 keys.forEach(key=>{
-                    if(item[key].includes(search))
+                    if(item[key].toLowerCase().includes(search.toLowerCase()))
                     {
-                        console.log("item[key] : ",item[key], item[key].includes(search))
+                        console.log("item[key] : ",item[key], item[key].toLowerCase().includes(search.toLowerCase()))
                         found=1;
                     }
                 })
@@ -322,6 +332,7 @@ function AdminEdit() {
             })
 
             console.log(items)
+            setDispData([...items])
             if(items.length>0)
                 setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
             else
@@ -334,7 +345,6 @@ function AdminEdit() {
     }, [search, spareData])
 
     const RenderItem=({item, index})=>{
-        console.log("iten : ",item)
         return (
             <div key={index} className="w-10/12 p-2 grid grid-cols-7">
                 <div className="flex items-center justify-center">
@@ -365,8 +375,10 @@ function AdminEdit() {
                     <div 
                         className="font-semibold bg-blue-600 p-3 rounded-3xl w-10/12 break-all text-white hover:bg-blue-800"
                         onClick={()=>{
-                            setModalItem(item)
-                            setModalToggle(true)
+                            setModalIndex(index)
+                            RenderModal(index)
+                            // setModalItem(item)
+                            // setModalToggle(true)
                         }}
                     >View</div>
                 </div>
@@ -374,9 +386,6 @@ function AdminEdit() {
         )
     }
 
-    useEffect(() => {
-        RenderModal()
-    }, [modalItem])
 
     return (
         <div className="h-full">
@@ -387,7 +396,30 @@ function AdminEdit() {
                         />
                     </div>
                 </div>)}
-            {modalToggle&&Modal}
+                
+                {Modal&&(
+                <div onClick={backdropClickHandler} className="bg-white z-20 bg-opacity-95 space-x-10 fixed inset-0 flex justify-center items-center">
+                    <div className="p-3 bg-blue-400 text-white rounded-3xl hover:bg-blue-800" onClick={()=>{
+                        var mindex=modalIndex-1>=0?modalIndex-1:dispData.length-1
+                        setModalIndex(mindex)
+                        RenderModal(mindex)
+                    }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </div>
+                    {Modal}
+                    <div className="p-3 bg-blue-400 text-white rounded-3xl hover:bg-blue-800" onClick={()=>{
+                        var mindex=(modalIndex+1)%dispData.length
+                        setModalIndex(mindex)
+                        RenderModal(mindex)
+                    }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                        </svg>      
+                    </div>
+                </div>)
+            }
             <div className="h-5/12 pt-12 pb-6 flex flex-col items-center bg-blue-200 filter drop-shadow-lg w-full">
                 <div className="font-bold text-5xl w-full text-center text-gray-900">EDIT SPARE</div>
 
