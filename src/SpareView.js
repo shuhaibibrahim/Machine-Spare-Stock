@@ -291,7 +291,6 @@ function SpareView() {
 
         if(count>0)
         {
-            setDispData([...newData])
             dispItems=[...newData]
 
             const mySet=new Set();
@@ -308,7 +307,6 @@ function SpareView() {
         else
         {
             dispItems=[...spareData]
-            setDispData([...spareData])
 
             const mySet=new Set();
             spareData.forEach(item=>{
@@ -324,6 +322,19 @@ function SpareView() {
         return dispItems
     }
 
+    useEffect(() => {
+        if(dispData.length>0)
+        {
+            setRenderItems(dispData.map((item, index)=><RenderItem item={item} index={index}/>))
+        }
+        else
+            setRenderItems(        
+                <div className="flex items-center justify-center w-full h-full">
+                    <div className="text-blue-300 text-5xl">Nothing here !</div>
+                </div>
+            )
+    }, [dispData])
+
     const filterSearch=()=>{
 
         //applying filter items
@@ -332,8 +343,9 @@ function SpareView() {
 
         if(search==="")
         {
+            setDispData([...dispItems])
             var items=[...dispItems]
-            setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
+            // setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
         }
         else
         {
@@ -352,16 +364,16 @@ function SpareView() {
             })
 
             setDispData([...items])
-            if(items.length>0)
-            {
-                setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
-            }
-            else
-                setRenderItems(        
-                    <div className="flex items-center justify-center w-full h-full">
-                        <div className="text-blue-300 text-5xl">Nothing here !</div>
-                    </div>
-                )
+            // if(items.length>0)
+            // {
+            //     setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
+            // }
+            // else
+            //     setRenderItems(        
+            //         <div className="flex items-center justify-center w-full h-full">
+            //             <div className="text-blue-300 text-5xl">Nothing here !</div>
+            //         </div>
+            //     )
         }
     }
 
