@@ -188,13 +188,15 @@ function AdminEdit() {
                                 <input 
                                     type={fieldKeys[index].split(":")[1]} 
                                     id={index} 
-                                    value={dispData[mindex][fieldKeys[index].split(":")[0]]}
-                                    onChange={(e)=>{setModalItem(
-                                            {
-                                                ...dispData[mindex],
-                                                [fieldKeys[index].split(":")[0]]:e.target.value
-                                            }
-                                        )
+                                    value={modalItem[fieldKeys[index].split(":")[0]]}
+                                    onChange={(e)=>{
+                                            var tmpObj={
+                                                ...modalItem,
+                                            }    
+                                            tmpObj[fieldKeys[index].split(":")[0]]=e.target.value
+
+                                            setModalItem({...tmpObj})
+                                        // console.log(tmpObj)
                                     }}
                                     className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
                                 />
@@ -231,18 +233,18 @@ function AdminEdit() {
                                 transition-all
                                 duration-150
                             ">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
                                     <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
                                 </svg>
-                                <div class="text-base leading-normal uppercase flex flex-col justify-center items-center">
+                                <div className="text-base leading-normal uppercase flex flex-col justify-center items-center">
                                     <span>Select a file</span>
                                     <span>(Max 45kb)</span>
                                 </div>
                                 <input 
                                     id="image" 
                                     type="file" 
-                                    class="hidden" 
+                                    className="hidden" 
                                     onChange={e=>{
                                         if(e.target.files[0])
                                         {
@@ -298,7 +300,13 @@ function AdminEdit() {
                 </div>
             </div>
         )
-    }
+    }    
+
+    useEffect(() => {
+        if(Modal)
+            RenderModal(modalIndex)
+    }, [modalItem]);
+    
 
     useEffect(() => {
         if(search==="")
@@ -322,7 +330,7 @@ function AdminEdit() {
 
             setDispData([...items])
             if(items.length>0)
-                setRenderItems(items.map((item, index)=><RenderItem item={item} index={index}/>))
+                setRenderItems(items.map((item, index)=>{RenderItem(item, index)}))
             else
                 setRenderItems(        
                     <div className="flex items-center justify-center w-full h-full">
@@ -364,6 +372,7 @@ function AdminEdit() {
                         className="font-semibold bg-blue-600 p-3 rounded-3xl w-10/12 break-all text-white hover:bg-blue-800"
                         onClick={()=>{
                             setModalIndex(index)
+                            setModalItem(item)
                             RenderModal(index)
                             // setModalItem(item)
                             // setModalToggle(true)
@@ -378,7 +387,7 @@ function AdminEdit() {
     return (
         <div className="h-full">
             {updateLoad&&(<div className="bg-white z-40 bg-opacity-95 fixed inset-0 flex justify-center items-center">
-                    <div class="w-full h-full flex justify-center items-center space-x-5 mt-24">
+                    <div className="w-full h-full flex justify-center items-center space-x-5 mt-24">
                         <div
                             className="animate-spin rounded-full h-8 w-8 border-b-4 border-blue-500"
                         />
@@ -420,7 +429,7 @@ function AdminEdit() {
                         placeholder="Search by keyword"
                     />
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
             </div>
@@ -438,7 +447,7 @@ function AdminEdit() {
                 {
                     loading && 
                     (
-                        <div class="w-full h-full flex justify-center items-center space-x-5 mt-24">
+                        <div className="w-full h-full flex justify-center items-center space-x-5 mt-24">
                             <div
                                 className="animate-spin rounded-full h-8 w-8 border-b-4 border-blue-500"
                             />
