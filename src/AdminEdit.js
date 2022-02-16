@@ -329,8 +329,9 @@ function AdminEdit() {
             })
 
             setDispData([...items])
+            console.log(items)
             if(items.length>0)
-                setRenderItems(items.map((item, index)=>{RenderItem(item, index)}))
+                setRenderItems(items.map((item, index)=><RenderItem item={item} index={index} />))
             else
                 setRenderItems(        
                     <div className="flex items-center justify-center w-full h-full">
