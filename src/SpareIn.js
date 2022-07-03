@@ -20,6 +20,7 @@ function SpareIn() {
     )
 
     const [myqty, setQty] = useState(0)
+    const [selectedQty, setSelectedQty] = useState("localQty")
     const [loading, setLoading] = useState(true)
 
     const addQuantity=(item)=>{
@@ -29,11 +30,29 @@ function SpareIn() {
 
         var oldQty=item.qty
 
+        var newLocalQty=item.localQty?item.localQty:0
+        var newServQty=item.servQty?item.servQty:0
+        var newQty=item.qty?item.qty:0
+
+        if(selectedQty==="newQty")
+        {
+            newQty=parseInt(newQty)+parseInt(myqty)
+        }
+        else if(selectedQty==="localQty")
+        {
+            newLocalQty=parseInt(newLocalQty)+parseInt(myqty)
+        }
+        else if(selectedQty==="servQty")
+        {
+            newServQty=parseInt(newServQty)+parseInt(myqty)
+        }
         
         //updating quantity
         set(spareRef, {
             ...item,
-            qty:parseInt(item.qty)+parseInt(myqty)
+            qty:newQty,
+            localQty:newLocalQty,
+            servQty:newServQty
         })
         .then(()=>{
             alert("Successfully updated")
@@ -41,7 +60,11 @@ function SpareIn() {
             setModalItem(
                 {
                     ...item,
-                    qty:parseInt(item.qty)+parseInt(myqty)
+                    qty:newQty,
+                    localQty:newLocalQty,
+                    servQty:newServQty,
+                    totalQty: parseInt(newQty)+parseInt(newLocalQty)+parseInt(newServQty),
+                    totalValue:(parseFloat(newQty)*parseFloat(item.ogValue)+parseFloat(newLocalQty)*parseFloat(item.localValue)).toPrecision(10)
                 }
             )
 
@@ -51,8 +74,8 @@ function SpareIn() {
             set(newHistoryRef, {
                 // spareId: item.id,
                 ...item,
-                initialQty: oldQty,
-                added: myqty, //quantity added
+                initialQty: selectedQty+" : "+oldQty,
+                added: selectedQty+" : "+myqty, //quantity added
                 date: currentDate
             })
             .then(()=>{
@@ -83,14 +106,14 @@ function SpareIn() {
         // 
         setModal(
             <div onClick={backdropClickHandler} className="bg-white z-20 bg-opacity-95 fixed inset-0 flex justify-center items-center">
-               <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">
+               <div className="flex flex-col bg-blue-700 text-white h-2xl w-8/12 rounded-xl">
                     <div className="flex flex-row justify-end px-8 pt-3 ">
                         <svg onClick={()=>{setModal(<div/>)}} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
 
-                    <div className="w-full h-lg px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
+                    <div className="w-full h-xl px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
                         <div className="mr-3 overflow-y-scroll flex flex-col space-y-4 items-start w-8/12">
                             
                             {fieldHeadings.map((heading,index)=>(
@@ -112,6 +135,11 @@ function SpareIn() {
 
                             <div className="flex flex-col space-y-4 w-full">
                                 <div className="w-full text-left font-bold">Add quantity : </div>
+                                <select className='p-3 text-black focus:outline-none' onChange={(e)=>{setSelectedQty(e.target.value)}}>
+                                    <option value="localQty">Local Qty</option>
+                                    <option value="servQty">Service Qty</option>
+                                    <option value="newQty">New Qty</option>
+                                </select>
                                 <div className="flex flex-row w-full justify-between">
                                     <input 
                                         id="qty"

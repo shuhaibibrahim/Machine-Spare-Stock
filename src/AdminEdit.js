@@ -329,7 +329,7 @@ function AdminEdit() {
             })
 
             setDispData([...items])
-            console.log(items)
+            // console.log(items)
             if(items.length>0)
                 setRenderItems(items.map((item, index)=><RenderItem item={item} index={index} />))
             else

@@ -5,6 +5,8 @@ import { ref as sref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { fieldHeadings, fieldKeys } from './Requirements';
 
 function AdminAdd() {
+    //whan a new field is to be added, add it in the Requirements.js and in the 'sparey state below
+    //If it is calculated and not taken as input from admin, specify it in the 'notinclude' state
     const [spare, setSpare] = useState({
         code:"",
         partName:"",

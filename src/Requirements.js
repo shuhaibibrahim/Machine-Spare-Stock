@@ -39,8 +39,7 @@ const fieldKeys=[
     "machine:text",
     "remarks:text",
     "life:number",
-    "minStock:number",
-    "localVendor:text"
+    "minStock:number"
 ]
 // const fieldHeadings=[
 //     "Code",
