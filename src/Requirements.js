@@ -10,6 +10,9 @@ const fieldHeadings=[
     "TOTAL QUANTITY ",// NO NEED TO ENTER THIS VALUE NEED TO SUM ALL THE QUANTITIES"
     "UNIT OF MEASUREMENT",
     "OG VALUE",
+    "SERVICE VALUE",
+    "SERVICE VENDOR",
+    "SAP",
     "LOCAL VALUE",
     "TOTAL VALUE",// (NEW QTY X OG VALUE LOCAL QTY X LOCAL VALUE) NO NEED TO ENTER THIS VALUE IN SPARE ADD"
     "ORIGIN",
@@ -17,7 +20,7 @@ const fieldHeadings=[
     "MACHINE",
     "REMARKS",
     "LIFE",
-    "MINIMUM STOCK"
+    "MINIMUM STOCK",
 ]
 
 const fieldKeys=[
@@ -32,6 +35,9 @@ const fieldKeys=[
     "totalQty:number", //calculated
     "unit:text",
     "value:text",//og value
+    "servValue:text",
+    "servVendor:text",
+    "sap:radio:Yes,No",
     "localValue:text",
     "totalValue:text", //calculated
     "origin:text",

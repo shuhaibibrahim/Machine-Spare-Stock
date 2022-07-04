@@ -4,7 +4,6 @@ import { ref, set, onValue } from "firebase/database";
 import { db } from "./firebase_config";
 import * as XLSX from 'xlsx';
 import {fieldHeadings, fieldKeys} from "./Requirements"
-import { parse } from 'dotenv';
 
 
 function SpareView() {
@@ -142,7 +141,7 @@ function SpareView() {
 
     const RenderModal=(mindex)=>{
         setModal(
-            <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">
+            <div className="flex flex-col bg-blue-700 text-white h-2xl w-8/12 rounded-xl">
                 <div className="flex flex-row justify-end px-8 pt-3 ">
                     <svg onClick={()=>{setModal(null)}} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -166,7 +165,7 @@ function SpareView() {
                     </div>
                     <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
                         <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">
-                            <img className="h-64 w-56 rounded-xl" src={dispData[mindex].image} alt="imageq1" />
+                            <img className="h-64 w-56 rounded-xl" src={dispData[mindex].image} alt="image" />
                         </div>
                     </div>
                 </div>
@@ -194,6 +193,30 @@ function SpareView() {
                 </div>
 
                 <div className="flex items-center justify-center">
+                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.nickName}</div>
+                </div>
+
+                <div className="flex items-center justify-center">
+                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.machine}</div>
+                </div>
+
+                <div className="flex items-center justify-center">
+                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.qty?item.qty:""}</div>
+                </div>
+
+                <div className="flex items-center justify-center">
+                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.localQty?item.localQty:""}</div>
+                </div>
+
+                <div className="flex items-center justify-center">
+                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.servQty?item.servQty:""}</div>
+                </div>
+
+                {/* <div className="flex items-center justify-center">
+                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.machine}</div>
+                </div>
+
+                <div className="flex items-center justify-center">
                     <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.partName}</div>
                 </div>
 
@@ -201,17 +224,11 @@ function SpareView() {
                     <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.partNumber}</div>
                 </div>
 
-                <div className="flex items-center justify-center">
-                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.nickName}</div>
-                </div>
 
                 <div className="flex items-center justify-center">
                     <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.spec}</div>
-                </div>
+                </div> */}
 
-                <div className="flex items-center justify-center">
-                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.machine}</div>
-                </div>
 
                 <div className="flex items-center justify-center">
                     <div 

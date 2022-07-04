@@ -174,6 +174,30 @@ function SpareIn() {
                 </div>
 
                 <div className="flex items-center justify-center">
+                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.nickName}</div>
+                </div>
+
+                <div className="flex items-center justify-center">
+                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.machine}</div>
+                </div>
+
+                <div className="flex items-center justify-center">
+                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.qty?item.qty:""}</div>
+                </div>
+
+                <div className="flex items-center justify-center">
+                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.localQty?item.localQty:""}</div>
+                </div>
+
+                <div className="flex items-center justify-center">
+                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.servQty?item.servQty:""}</div>
+                </div>
+
+                {/* <div className="flex items-center justify-center">
+                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.machine}</div>
+                </div>
+
+                <div className="flex items-center justify-center">
                     <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.partName}</div>
                 </div>
 
@@ -181,17 +205,11 @@ function SpareIn() {
                     <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.partNumber}</div>
                 </div>
 
-                <div className="flex items-center justify-center">
-                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.nickName}</div>
-                </div>
 
                 <div className="flex items-center justify-center">
                     <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.spec}</div>
-                </div>
+                </div> */}
 
-                <div className="flex items-center justify-center">
-                    <div className="font-semibold bg-gray-300 p-5 rounded-xl w-10/12 break-all">{item.machine}</div>
-                </div>
 
                 <div className="flex items-center justify-center">
                     <div 
@@ -295,11 +313,14 @@ function SpareIn() {
             <div className="mt-10 mb-10 flex flex-col h-full space-y-2 items-center justify center items-center">
                 <div className="w-10/12 p-3 grid grid-cols-7 border-2 border-black divide-x-2 divide-black divide-solid rounded-xl">
                     <div className="font-bold">Code</div>
-                    <div className="font-bold">Part Name</div>
-                    <div className="font-bold">Part Number</div>
                     <div className="font-bold">Nickname</div>
-                    <div className="font-bold">Specification</div>
                     <div className="font-bold">Machine</div>
+                    <div className="font-bold">New Qty</div>
+                    <div className="font-bold">Local Qty</div>
+                    <div className="font-bold">Service Qty</div>
+                    {/* <div className="font-bold">Part Name</div>
+                    <div className="font-bold">Part Number</div>
+                    <div className="font-bold">Specification</div> */}
                 </div>
                 <div className="w-full h-full mt-24" >
                 {

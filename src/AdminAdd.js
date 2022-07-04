@@ -164,16 +164,37 @@ function AdminAdd() {
                             {fieldHeadings.map((heading,index)=>
                                 !(fieldKeys[index].split(":")[0] in notInclude)&&
                                     (<div key={index} className="p-1 pl-3 pb-2 bg-blue-100 rounded-xl w-full">
-                                        <label htmlFor="code">
+                                        <label htmlFor={fieldKeys[index].split(":")[0]}>
                                             <div className="w-full text-left">{heading}</div>
                                         </label>
-                                        <input 
-                                            className="pl-3 focus:outline-none h-8 w-full rounded-xl" 
-                                            type={fieldKeys[index].split(":")[1]} 
-                                            id={index} 
-                                            value={spare[fieldKeys[index].split(":")[0]]} 
-                                            onChange={(e)=>{setSpare({...spare, [fieldKeys[index].split(":")[0]]:e.target.value})}} 
-                                        />
+                                        {fieldKeys[index].split(":")[1]!=="radio"?
+                                            (<input 
+                                                className="pl-3 focus:outline-none h-8 w-full rounded-xl" 
+                                                type={fieldKeys[index].split(":")[1]} 
+                                                id={index}
+                                                name={fieldKeys[index].split(":")[0]} 
+                                                value={spare[fieldKeys[index].split(":")[0]]} 
+                                                onChange={(e)=>{setSpare({...spare, [fieldKeys[index].split(":")[0]]:e.target.value})}} 
+                                            />)
+                                            :
+                                            (
+                                                <div className='flex flex-row w-full space-x-4'>
+                                                    {fieldKeys[index].split(":")[2].split(",").map((radioItem, radioIndex)=>(
+                                                        <div className='flex flex-row w-fit items-center space-x-2' key={radioIndex}>
+                                                            <div className="text-left">{radioItem}</div>
+                                                            <input 
+                                                                className="pl-3 focus:outline-none h-8 w-8 rounded-xl " 
+                                                                type={fieldKeys[index].split(":")[1]} 
+                                                                id={index} 
+                                                                name={fieldKeys[index].split(":")[0]} 
+                                                                value={radioItem} 
+                                                                onChange={(e)=>{setSpare({...spare, [fieldKeys[index].split(":")[0]]:e.target.value})}} 
+                                                            />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )
+                                        }
                                     </div>)
                             )}
 
