@@ -166,15 +166,15 @@ function AdminEdit() {
 
     const RenderModal=(mindex)=>{
         setModal(
-            <div className="flex flex-col bg-blue-700 text-white h-xl w-8/12 rounded-xl">
+            <div className="flex flex-col bg-blue-700 text-white h-2xl w-8/12 rounded-xl">
                 <div className="flex flex-row justify-end px-8 pt-3 ">
                     <svg onClick={()=>{setModal(null); setImageFile("")}} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
 
-                <div className="w-full h-lg px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
-                    <div className="mr-3 overflow-y-scroll flex flex-col space-y-4 items-start w-8/12">
+                <div className="w-full h-xl px-8 py-4 text-white flex flex-row bg-blue-700 justify-between">    
+                    <div className="pr-3 overflow-y-scroll flex flex-col space-y-4 items-start w-8/12">
                         
                         {fieldHeadings.map((heading,index)=>
                             !(fieldKeys[index].split(":")[0] in notInclude)&&
@@ -185,7 +185,7 @@ function AdminEdit() {
                                     <span>:</span>
                                 </div>
                                 {/* <div className="text-center font-bold">:</div> */}
-                                <input 
+                                {/* <input 
                                     type={fieldKeys[index].split(":")[1]} 
                                     id={index} 
                                     value={modalItem[fieldKeys[index].split(":")[0]]}
@@ -199,12 +199,74 @@ function AdminEdit() {
                                         // console.log(tmpObj)
                                     }}
                                     className="w-10/12 pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
-                                />
+                                /> */}
+                                {fieldKeys[index].split(":")[1]!=="radio"?
+                                    (
+                                    <input 
+                                        type={fieldKeys[index].split(":")[1]} 
+                                        id={index} 
+                                        name={fieldKeys[index].split(":")[0]} 
+                                        value={modalItem[fieldKeys[index].split(":")[0]]}
+                                        onChange={(e)=>{
+                                                var tmpObj={
+                                                    ...modalItem,
+                                                }    
+                                                tmpObj[fieldKeys[index].split(":")[0]]=e.target.value
+
+                                                setModalItem({...tmpObj})
+                                            // console.log(tmpObj)
+                                        }}
+                                        className=" pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                    />
+                                    // <input 
+                                    //     className="pl-3 focus:outline-none h-8 w-full rounded-xl" 
+                                    //     type={fieldKeys[index].split(":")[1]} 
+                                    //     id={index}
+                                    //     name={fieldKeys[index].split(":")[0]} 
+                                    //     value={spare[fieldKeys[index].split(":")[0]]} 
+                                    //     onChange={(e)=>{setSpare({...spare, [fieldKeys[index].split(":")[0]]:e.target.value})}} 
+                                    // />
+                                    )
+                                    :
+                                    (
+                                        <div className='flex flex-row w-full space-x-4'>
+                                            {fieldKeys[index].split(":")[2].split(",").map((radioItem, radioIndex)=>(
+                                                <div className='flex flex-row w-fit items-center space-x-2' key={radioIndex}>
+                                                    <div className="text-left">{radioItem}</div>
+                                                    {/* <input 
+                                                        className="pl-3 focus:outline-none h-8 w-8 rounded-xl " 
+                                                        type={fieldKeys[index].split(":")[1]} 
+                                                        id={index} 
+                                                        name={fieldKeys[index].split(":")[0]} 
+                                                        value={radioItem} 
+                                                        onChange={(e)=>{setSpare({...spare, [fieldKeys[index].split(":")[0]]:e.target.value})}} 
+                                                    /> */}
+                                                    <input 
+                                                        type={fieldKeys[index].split(":")[1]} 
+                                                        id={index} 
+                                                        name={fieldKeys[index].split(":")[0]} 
+                                                        value={radioItem} 
+                                                        onChange={(e)=>{
+                                                                var tmpObj={
+                                                                    ...modalItem,
+                                                                }    
+                                                                tmpObj[fieldKeys[index].split(":")[0]]=e.target.value
+
+                                                                setModalItem({...tmpObj})
+                                                            // console.log(tmpObj)
+                                                        }}
+                                                        className=" pl-3 text-black text-sm rounded-3xl focus:outline-none focus:ring-blue-500 focus:ring-2"
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )
+                                }
                             </div>
                         ))}
 
                     </div>
-                    <div className="flex flex-col space-y-4 w-4/12 justify-between items-center">
+                    <div className="flex flex-col px-2 space-y-4 w-4/12 justify-between items-center">
                         <div className="flex h-full w-full rounded-2xl bg-blue-100 justify-center items-center">
                             {/* <img className="h-64 w-56 rounded-xl" src={modalItem.image} alt="imageq1" /> */}
                             <img className="h-64 w-56 rounded-xl" src={imageFile?URL.createObjectURL(imageFile):dispData[mindex].image} alt="imageq1" />

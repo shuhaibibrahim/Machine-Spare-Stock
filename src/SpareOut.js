@@ -314,12 +314,15 @@ function SpareOut() {
 
             <div className="mt-10 mb-10 flex flex-col h-full space-y-2 items-center justify center items-center">
                 <div className="w-10/12 p-3 grid grid-cols-7 border-2 border-black divide-x-2 divide-black divide-solid rounded-xl">
-                    <div className="font-bold">Code</div>
-                    <div className="font-bold">Part Name</div>
-                    <div className="font-bold">Part Number</div>
+                <div className="font-bold">Code</div>
                     <div className="font-bold">Nickname</div>
-                    <div className="font-bold">Specification</div>
                     <div className="font-bold">Machine</div>
+                    <div className="font-bold">New Qty</div>
+                    <div className="font-bold">Local Qty</div>
+                    <div className="font-bold">Service Qty</div>
+                    {/* <div className="font-bold">Part Name</div>
+                    <div className="font-bold">Part Number</div>
+                    <div className="font-bold">Specification</div> */}
                 </div>
                 <div className="w-full h-full mt-24" >
                 {
