@@ -83,6 +83,7 @@ function SpareView() {
         //     "Remarks",
         // ]]
         const Heading=[[...fieldHeadings]]
+        // console.log(fieldKeys.map(item=>item.split(':')[0]))
 
 		var ws = XLSX.utils.json_to_sheet(excelData, { origin: 'A2', skipHeader: true });
         var wb = XLSX.utils.book_new();
@@ -297,7 +298,7 @@ function SpareView() {
             {
                 var items=[]
                 newData.forEach(item=>{
-                    if(item[key].toLowerCase().includes(searchText.toLowerCase()))
+                    if(String(item[key]).toLowerCase().includes(searchText.toLowerCase()))
                     {
                         items.push(item)
                     }
@@ -371,7 +372,7 @@ function SpareView() {
                 // 
                 var found=0;
                 keys.forEach(key=>{
-                    if(item[key].toLowerCase().includes(search.toLocaleLowerCase()))
+                    if(String(item[key]).toLowerCase().includes(search.toLocaleLowerCase()))
                     {
                         
                         found=1;

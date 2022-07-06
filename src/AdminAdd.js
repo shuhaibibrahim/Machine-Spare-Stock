@@ -142,7 +142,7 @@ function AdminAdd() {
     }
 
     return (
-        <div>
+        <div className='w-full'>
             {updateLoad&&(<div className="bg-white z-40 bg-opacity-95 fixed inset-0 flex justify-center items-center">
                     <div class="w-full h-full flex justify-center items-center space-x-5 mt-24">
                         <div
@@ -152,9 +152,9 @@ function AdminAdd() {
                 </div>)}
                 
             {Modal}
-            <div className="p-12 flex flex-row items-center bg-blue-200 filter drop-shadow-lg w-full">
+            {/* <div className="p-12 flex flex-row items-center bg-blue-200 filter drop-shadow-lg w-full">
                 <div className="font-bold text-5xl w-full text-center text-gray-900">SPARE ADD</div>
-            </div>
+            </div> */}
 
             <div className="flex flex-col justify-center items-center mb-4">
                 <form className="flex flex-col items-center justify-center w-10/12">

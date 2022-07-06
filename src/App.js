@@ -18,6 +18,7 @@ import { auth } from "./firebase_config";
 import AdminHome from './AdminHome';
 import { ref, set, onValue } from "firebase/database";
 import { db } from "./firebase_config";
+import AdminAddExcel from './AdminAddExcel';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -32,10 +33,11 @@ function App() {
               const userRef = ref(db, `users/${user.uid}`);
 
               onValue(userRef, (snapshot) => {
-                  const data = snapshot.val();
-                  ;
+                const data = snapshot.val();
+                ;
                   
-                  setIsAdmin(data.admin)
+                setIsAdmin(data.admin)
+                console.log(data.admin)
               });
           } else {
               setUser(null);
@@ -76,7 +78,7 @@ function App() {
         </Route>
 
         <Route path="/adminAdd" exact>
-          {user&&isAdmin?<AdminAdd/>:<Redirect to="/"/>}
+          {user&&isAdmin?<AdminAddExcel/>:<Redirect to="/"/>}
         </Route>
 
         <Route path="/adminDelete" exact>
