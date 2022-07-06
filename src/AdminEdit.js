@@ -165,6 +165,7 @@ function AdminEdit() {
     }
 
     const RenderModal=(mindex)=>{
+        // console.log(dispData[mindex])
         setModal(
             <div className="flex flex-col bg-blue-700 text-white h-2xl w-8/12 rounded-xl">
                 <div className="flex flex-row justify-end px-8 pt-3 ">
@@ -188,7 +189,7 @@ function AdminEdit() {
                                 {/* <input 
                                     type={fieldKeys[index].split(":")[1]} 
                                     id={index} 
-                                    value={modalItem[fieldKeys[index].split(":")[0]]}
+                                    value={dispData[mindex][fieldKeys[index].split(":")[0]]}
                                     onChange={(e)=>{
                                             var tmpObj={
                                                 ...modalItem,
@@ -206,7 +207,7 @@ function AdminEdit() {
                                         type={fieldKeys[index].split(":")[1]} 
                                         id={index} 
                                         name={fieldKeys[index].split(":")[0]} 
-                                        value={modalItem[fieldKeys[index].split(":")[0]]}
+                                        value={dispData[mindex][fieldKeys[index].split(":")[0]]}
                                         onChange={(e)=>{
                                                 var tmpObj={
                                                     ...modalItem,
@@ -382,7 +383,7 @@ function AdminEdit() {
             var items=spareData.filter((item,index)=>{
                 var found=0;
                 keys.forEach(key=>{
-                    if(item[key].toLowerCase().includes(search.toLowerCase()))
+                    if(String(item[key]).toLowerCase().includes(search.toLowerCase()))
                     {
                         found=1;
                     }
