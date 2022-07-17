@@ -397,11 +397,11 @@ function SpareView() {
 
     useEffect(() => {
         filterSearch();
-    }, [search, spareData])
+    }, [search, spareData, filterItems])
     
-    useEffect(() => {
-        filterSearch();
-    }, [filterItems])
+    // useEffect(() => {
+    //     filterSearch();
+    // }, [filterItems])
 
     return (
         <div className="h-full">

@@ -198,7 +198,7 @@ function SpareHistory() {
             var items=historyData.filter((item,index)=>{
                 var found=0;
                 keys.forEach(key=>{
-                    if(item[key] && item[key].includes(search))
+                    if(item[key] && String(item[key]).toLowerCase().includes(search.toLowerCase))
                     {
                         found=1;
                     }

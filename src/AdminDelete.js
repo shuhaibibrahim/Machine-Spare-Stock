@@ -211,7 +211,7 @@ function AdminDelete() {
             var items=spareData.filter((item,index)=>{
                 var found=0;
                 keys.forEach(key=>{
-                    if(item[key].includes(search))
+                    if(String(item[key]).toLowerCase().includes(search.toLowerCase))
                     {
                         found=1;
                     }

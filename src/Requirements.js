@@ -26,7 +26,7 @@ const fieldHeadings=[
 const fieldKeys=[
     "code:text",
     "partName:text",
-    "partNumber:text",
+    "partNumber:number",
     "nickName:text",
     "spec:text",
     "qty:number", //new qty
@@ -34,12 +34,12 @@ const fieldKeys=[
     "servQty:number",//serviced qty
     "totalQty:number", //calculated
     "unit:text",
-    "value:text",//og value
-    "servValue:text",
+    "value:number",//og value
+    "servValue:number",
     "servVendor:text",
     "sap:radio:Yes,No",
-    "localValue:text",
-    "totalValue:text", //calculated
+    "localValue:number",
+    "totalValue:number", //calculated
     "origin:text",
     "localVendor:text",
     "machine:text",

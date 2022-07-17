@@ -19,11 +19,9 @@ function AdminAddExcel() {
     };
 
     const [uploaded,setUploaded]=useState(false);
-    const [jsonData,setJsonData]=useState([]);
-    const [indEmail,setIndEmail]=useState("");
-    const [indAdmno,setIndAdmno]=useState("");
-    const [indName,setIndName]=useState("")
+    const [jsonData,setJsonData]=useState([])
     const [updateLoad, setUpdateLoad] = useState(false)
+    const [fileName,setFileName]=useState("")
 
     var updateCount=0
     const pushToDatabase = (item) => {
@@ -43,6 +41,9 @@ function AdminAddExcel() {
             {
                 setUpdateLoad(false)
                 updateCount=0
+                setJsonData([])
+                setFileName("")
+                alert("Data uploaded successfully")
             }
             else
                 updateCount++
@@ -103,7 +104,7 @@ function AdminAddExcel() {
                 </button>
             </div>
             
-            <Uploader uploaded={uploaded} setUploaded={setUploaded} jsonData={jsonData} setJsonData={setJsonData}/>
+            <Uploader uploaded={uploaded} setUploaded={setUploaded} fileName={fileName} setFileName={setFileName} jsonData={jsonData} setJsonData={setJsonData}/>
             
             {/* <div className="w-full flex items-end justify-end ">
                 <button className='mb-3 p-3 py-2 cursor-pointer hover:bg-green-600 px-3 bg-green-800 text-white text-sm font-semibold rounded-2xl'> Add spare</button>

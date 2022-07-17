@@ -6,8 +6,8 @@ import Sheets from '../icons/sheets.png'
 import * as XLSX from 'xlsx'
 // import { DeleteForever } from '@material-ui/icons';
 
-function Uploader({uploaded,setUploaded,jsonData,setJsonData}) {
-  const [fileName,setFileName]=useState("")
+function Uploader({uploaded, setUploaded, setJsonData, fileName, setFileName}) {
+  
 
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((uploadedfile) => {
